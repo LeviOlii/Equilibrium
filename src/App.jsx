@@ -1,12 +1,15 @@
-import './App.css';
+import React from "react";
+import Header from "./components/Header"; // Ajuste o caminho conforme a estrutura
 
-export default function App() {
+const App = () => {
   return (
     <div>
-      
+      <Header />
+      <main className="p-4">
+        <h2 className="text-xl">Bem-vindo ao site!</h2>
+      </main>
     </div>
   );
-}
+};
 
-
-
+export default App;
