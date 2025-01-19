@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  letter-spacing: 0.035em;
+}
+
 .bg-brand-green {
   background-color: #00856F;
 }
+
