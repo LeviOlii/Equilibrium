@@ -5,14 +5,14 @@ const Header = () => {
 
   return (
     <header className="bg-brand-green text-white p-6 font-dmSans tracking-wide">
-      <div className=" hidden md:flex container justify-center items-center min-w-full">
+      <div className="md:flex md:container md:justify-center md:items-center min-w-full">
         {/* Logo */}
-        <h1 className="absolute top-2/ left-36 text-2xl tracking-wide">
+        <h1 className=" text-3xl md:absolute md:top-2/ md:left-36 md:text-2xl tracking-wide">
           Equilibrium
         </h1>
 
         {/* Menu para Desktop */}
-        <nav className="hidden md:flex space-x-6 justify-center items-center ">
+        <nav className="hidden md:flex md:space-x-6 md:justify-center md:items-center ">
           <a href="#home" className="hover:underline">
             Início
           </a>
