@@ -11,12 +11,11 @@ import Home from "./pages/Home";
 const App = () => {
   return (
     <Router>
-      <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/groups" element={<Groups />} />
-        <Route path="/testimony" element={<Testimony />} />
+        {/*<Route path="/about" element={<About />} />
+        /*<Route path="/groups" element={<Groups />} />
+        /*<Route path="/testimony" element={<Testimony />} />*/}
       </Routes>
     </Router>
   );
