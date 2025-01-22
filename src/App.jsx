@@ -1,9 +1,9 @@
 import React from "react";
-import Home from "./pages/Home";
+import Admin from "./pages/Admin";
 
 const App = () => {
   return (
-    <Home/>
+    <Admin/>
   );
 };
 

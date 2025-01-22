@@ -10,7 +10,8 @@ export default {
         'mobile-bg': '#DCE9E2', // Adiciona a cor como uma variável no Tailwind
         'desktop-bg': '#00856F',
         'brand-green-hover': '#00453A',
-        'gray-headline': '#061800'
+        'gray-headline': '#061800',
+        'brand-beige': '#FFFAF1'
       },
     },
   },
