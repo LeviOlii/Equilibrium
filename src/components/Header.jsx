@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,18 +13,10 @@ const Header = () => {
 
         {/* Menu para Desktop */}
         <nav className="hidden md:flex md:space-x-6">
-          <a href="#home" className="hover:underline">
-            Início
-          </a>
-          <a href="#about" className="hover:underline">
-            Sobre
-          </a>
-          <a href="#groups" className="hover:underline">
-            Grupos
-          </a>
-          <a href="#testimony" className="hover:underline">
-            Depoimentos
-          </a>
+        <Link to="/" className="hover:underline">Início</Link>
+          <Link to="/about" className="hover:underline">Sobre</Link>
+          <Link to="/groups" className="hover:underline">Grupos</Link>
+          <Link to="/testimony" className="hover:underline">Depoimentos</Link>
         </nav>
 
         {/* Botão de Ação para Desktop */}
@@ -44,18 +37,18 @@ const Header = () => {
       {/* Menu Mobile */}
       {menuOpen && (
         <nav className="md:hidden grid bg-brand-green mt-2 space-y-4 p-6 col-span-5 text-2xl">
-          <a href="#home" className="block hover:underline text-center font-bold py-4">
+          <Link to="/" className="block hover:underline text-center font-bold py-4">
             Início
-          </a>
-          <a href="#about" className="block hover:underline text-center font-bold py-4">
+          </Link>
+          <Link to="/about" className="block hover:underline text-center font-bold py-4">
             Sobre
-          </a>
-          <a href="#groups" className="block hover:underline text-center font-bold py-4">
+          </Link>
+          <Link to="/groups" className="block hover:underline text-center font-bold py-4">
             Grupos
-          </a>
-          <a href="#testimony" className="block hover:underline text-center font-bold py-4">
+          </Link>
+          <Link to="/testimony" className="block hover:underline text-center font-bold py-4">
             Depoimentos
-          </a>
+          </Link>
           <button className="border-2 border-white py-3 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition">
           BUSQUE AJUDA
         </button>
