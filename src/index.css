@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  max-height: 100%;
-  margin: 0;
+:root {
+  letter-spacing: 0.035em;
+}
+
+.bg-brand-green {
+  background-color: #00856F;
+}
+
+.gray-headline {
+  color: #061800;
+}
+
+.bg-brand-green-light {
+  background-color: #DCE9E2;
 }
