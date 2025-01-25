@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+import Hero from "../components/Hero"
 
 const Home = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -7,6 +8,7 @@ const Home = () => {
     return (
         <>
             <Header/>
+            <Hero />
         </>
     );
 
