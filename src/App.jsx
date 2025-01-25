@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 //import About from "./pages/About";
 //import Groups from "./pages/Groups";
 //import Testimony from "./pages/Testimony";
+import Login from "./pages/Login.jsx";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         {/*<Route path="/about" element={<About />} />
         /*<Route path="/groups" element={<Groups />} />
         /*<Route path="/testimony" element={<Testimony />} />*/}
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

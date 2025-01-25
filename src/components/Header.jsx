@@ -19,12 +19,17 @@ const Header = () => {
           <Link to="/about" className="hover:underline">Sobre</Link>
           <Link to="/groups" className="hover:underline">Grupos</Link>
           <Link to="/testimony" className="hover:underline">Depoimentos</Link>
+          <Link to="/login" className="hover:underline">Login</Link>
         </nav>
 
         {/* Botão de Ação para Desktop */}
-        <button className="hidden md:block border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
-          BUSQUE AJUDA
-        </button>
+        <Link to="/login">
+          <button className="hidden md:block border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition"
+          >
+            BUSQUE AJUDA
+          </button>
+        </Link>
+          
 
         {/* Botão de Menu para Mobile */}
         <button

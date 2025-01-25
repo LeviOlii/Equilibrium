@@ -11,7 +11,8 @@ export default {
         'desktop-bg': '#00856F',
         'brand-green-hover': '#00453A',
         'gray-headline': '#061800',
-        'brand-beige': '#FFFAF1'
+        'brand-beige': '#FFFAF1',
+        'brand-white': '#F7F9F9'
       },
     },
   },
