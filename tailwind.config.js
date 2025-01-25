@@ -19,7 +19,7 @@ export default {
         'hero-desktop': '600px' //Altura do Hero versão desktop
       },
       width: {
-        'hero-texts-width': '800px'
+        'hero-texts-width': '700px'
       },
 
       lineHeight: {
