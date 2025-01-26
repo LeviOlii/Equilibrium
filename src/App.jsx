@@ -1,12 +1,13 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Admin from "./pages/Admin";
-import Header from "./components/Header";
 import Home from "./pages/Home";
 //import About from "./pages/About";
 //import Groups from "./pages/Groups";
 //import Testimony from "./pages/Testimony";
 import Login from "./pages/Login.jsx";
+import Dashboard from "./components/Dashboard.jsx";
+import SingUp from "./components/SignUp.jsx";
+import Anamnesis from "./components/Anamnesis.jsx";
+import ProfessionalForm from "./components/ProfessionalForm.jsx";
 
 
 const App = () => {
@@ -18,6 +19,10 @@ const App = () => {
         /*<Route path="/groups" element={<Groups />} />
         /*<Route path="/testimony" element={<Testimony />} />*/}
         <Route path="/login" element={<Login />} />
+        <Route path="/singup" element={<SingUp />} />
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/anamnesis" element={<Anamnesis />}/>
+        <Route path="/professional" element={<ProfessionalForm />}/>
       </Routes>
     </Router>
   );

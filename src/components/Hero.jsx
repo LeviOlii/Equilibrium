@@ -1,10 +1,8 @@
-import React, {useState} from "react";
 import {Link} from 'react-router-dom';
 import HeroImage from "../assets/images/homepage-hero-smiling-woman.png";
 import DivNumbers from "./DivNumbers";
 
 const Hero = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
 
     return (
     <>
