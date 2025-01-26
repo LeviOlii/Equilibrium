@@ -1,9 +1,7 @@
-import React, {useState} from "react";
 import {Link} from 'react-router-dom';
 import HeroImage from "../assets/images/homepage-hero-smiling-woman.png";
 
 const Hero = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
 
     return (
         <section className="h-hero-desktop bg-mobile-bg w-full flex font-dmSans">
