@@ -39,7 +39,7 @@ const Header = () => {
         </nav>
 
         {/* Botão de Ação para Desktop */}
-        <Link to="/login">
+        <Link to="/signup">
           <button className="hidden md:block border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
             BUSQUE AJUDA
           </button>
@@ -70,9 +70,11 @@ const Header = () => {
           <button onClick={() => scrollToSection("depoimentos")} className="block hover:underline text-center font-bold py-4">
             Depoimentos
           </button>
-          <button className="border-2 border-white py-3 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition">
-            BUSQUE AJUDA
-          </button>
+          <Link to={"/signup"}>
+            <button className="border-2 border-white py-3 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition">
+              BUSQUE AJUDA
+            </button>
+          </Link>
         </nav>
       )}
     </header>
