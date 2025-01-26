@@ -13,7 +13,7 @@ export default {
         'gray-headline': '#061800',
         'brand-beige': '#FFFAF1',
         'brand-white': '#F7F9F9',
-        'gray-paragraph': '#384633'
+        'gray-paragraph': '#384633'    
       },
       height: {
         'hero-desktop': '600px' //Altura do Hero versão desktop
