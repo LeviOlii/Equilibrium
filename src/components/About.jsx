@@ -4,7 +4,7 @@ import AboutImage from "../assets/images/homepage-aboutus-smiling-doctor.jpg";
 const About = () => {
     return (
         <>
-            <section id="sobre" className="font-dmSans bg-brand-beige w-full h-full pt-32">
+            <section id="sobre" className="font-dmSans bg-brand-beige w-full h-full">
                 <div className="grid lg:grid-cols-2 gap-10 items-center py-28 px-8 md:px-16">
                     <div className="flex justify-center">
                         <img 
