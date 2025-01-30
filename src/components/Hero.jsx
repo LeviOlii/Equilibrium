@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import HeroImage from "../assets/images/homepage-hero-smiling-woman.png";
 import DivNumbers from "./DivNumbers";
+import SearchBar from './SearchBar';
 
 const Hero = () => {
 
@@ -14,14 +15,14 @@ const Hero = () => {
                 
                 <div className=" py-12 lg:py-6 ">
                     <Link to="/login">
-                        <button className="hidden md:block bg-desktop-bg border-2 text-white border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition"
-                        >
-                        BUSQUE PROFISSIONAIS
-                        </button>
+                        
                     </Link>
                 </div>
-            </div>
 
+                <SearchBar />
+                
+            </div>
+            
             <div className=" md:flex inline-flex flex-auto" >
                 <img
                     src={HeroImage} 
@@ -30,6 +31,8 @@ const Hero = () => {
                 />
             </div>
             </section>
+
+            
 
             <div className="relative">
                 <DivNumbers />
