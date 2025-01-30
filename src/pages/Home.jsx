@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import About from "../components/About";
-import Testimony from "../components/Testimony";
+import Testimony from "../components/TestimonySection";
 
 const Home = () => {
 

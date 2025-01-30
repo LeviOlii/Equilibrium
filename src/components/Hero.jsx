@@ -16,7 +16,7 @@ const Hero = () => {
                     <Link to="/login">
                         <button className="hidden md:block bg-desktop-bg border-2 text-white border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition"
                         >
-                        BUSQUE AJUDA
+                        BUSQUE PROFISSIONAIS
                         </button>
                     </Link>
                 </div>
