@@ -1,11 +1,11 @@
+# Equilibrium
+
+O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ideia principal é de ser um site direcionado a pessoas com baixo poder aquisitivo principalmente, que desejam suporte emocional, e profissionais dispostos a oferecer seus serviços gratuitamente ou por preços acessíveis.
+
 - Equipe 5
 - Turma: FSN3
 - Professora: Fernanda Nascimento
 - Facilitador: Gabriel Bezerra
-
-# Equilibrium
-
-O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ideia principal é de ser um site direcionado a pessoas com baixo poder aquisitivo principalmente, que desejam suporte emocional, e profissionais dispostos a oferecer seus serviços gratuitamente ou por preços acessíveis.
 
 ## Funcionalidades
 
