@@ -19,4 +19,4 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - Tailwind CSS (para componentes e layout responsivo)
  
   ## Membros da equipe e suas funções
-  - Levi Oliveira: Criação da estrutura e estilização da página inicial
+  - Levi Oliveira: Criação da estrutura e estilização da página inicial (header, hero, about, groups, testimony, contact, footer)
