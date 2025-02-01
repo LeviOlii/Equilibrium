@@ -28,7 +28,7 @@ const Hero = () => {
                         <SearchBar />
                     </div>
                 </div>
-                <div className="md:flex flex-auto items-end"> {/* Added items-end */}
+                <div className="md:flex flex-auto items-end"> 
                     <img
                         src={HeroImage}
                         alt="Moça sorrindo representando acolhimento"
