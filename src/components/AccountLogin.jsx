@@ -54,7 +54,7 @@ const AccountLogin = () => {
             />
 
             <br />
-            <a className="text-gray-headline" href="/singup">Não possui uma conta?</a>
+            <a className="text-gray-headline" href="/signup">Não possui uma conta?</a>
             <br />
             {/* <a className="text-gray-headline" href="_blank">Esqueceu sua senha?</a>
             <br /> */}
