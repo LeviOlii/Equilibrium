@@ -30,3 +30,4 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   ## Membros da equipe e suas funções
   - Levi Oliveira: Criação da estrutura e estilização da página inicial (header, hero, about, groups, testimony, contact, footer)
   - Maria Eduarda: Estilização, organização de tarefas, criação da página de login
+  - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
