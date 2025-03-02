@@ -10,8 +10,16 @@ const ProfessionalForm = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const ParseNumber = (setter) => (e) => {
+    const value = e.target.value
+    if (value >= 0){
+      setter(value);
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
 
     if (parseInt(minAge) > parseInt(maxAge)) {
       setError('A idade mínima não pode ser maior que a idade máxima');
@@ -71,7 +79,7 @@ const ProfessionalForm = () => {
                 id="minAge"
                 className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-1/2 mr-2"
                 value={minAge}
-                onChange={(e) => setMinAge(e.target.value)}
+                onChange={ParseNumber(setMinAge)}
               />
               <input
                 type="number"
@@ -80,7 +88,7 @@ const ProfessionalForm = () => {
                 id="maxAge"
                 className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-1/2 ml-2"
                 value={maxAge}
-                onChange={(e) => setMaxAge(e.target.value)}
+                onChange={ParseNumber(setMaxAge)}
               />
             </div>
             <br />
@@ -92,7 +100,7 @@ const ProfessionalForm = () => {
               id="freeService"
               className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
               value={freeService}
-              onChange={(e) => setFreeService(e.target.value)}
+              onChange={ParseNumber(setFreeService)}
             />
             <br />
 
