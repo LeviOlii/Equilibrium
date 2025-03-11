@@ -4,6 +4,7 @@
 
 :root {
   letter-spacing: 0.035em;
+  overflow-x: hidden; 
 }
 
 .bg-brand-green {
@@ -21,3 +22,4 @@
 .hero-height {
   height: 670px;
 }
+
