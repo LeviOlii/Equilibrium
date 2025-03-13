@@ -18,7 +18,7 @@ const Header = () => {
             <div className="container mx-auto flex justify-between items-center">
                 <h1 className="text-2xl text-white">Equili<span className="font-bold">brium</span></h1>
 
-                <nav className="hidden md:flex md:space-x-6">
+                <nav className="hidden md:flex md:space-x-6 md:ml-28">
                     <button onClick={() => scrollToSection("inicio")} className="hover:underline">
                         Início
                     </button>
@@ -31,10 +31,15 @@ const Header = () => {
                     <button onClick={() => scrollToSection("depoimentos")} className="hover:underline">
                         Depoimentos
                     </button>
-                    <Link to="/login" className="hover:underline">Login</Link>
                 </nav>
+                
 
-                <div className="hidden md:block">
+                <div className="hidden md:flex md:space-x-4">
+                    <Link to="/login">
+                        <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
+                            Login
+                        </button>
+                    </Link>
                     <Link to="/signup">
                         <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
                             BUSQUE AJUDA
@@ -67,8 +72,15 @@ const Header = () => {
                     </button>
                     <div className="flex justify-center">
                         <Link to={"/signup"}>
-                            <button className="border-2 border-white py-3 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition w-full">
+                            <button className="border-2 border-white py-3 px-6 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition w-full">
                                 BUSQUE AJUDA
+                            </button>
+                        </Link>
+                    </div>
+                    <div className="flex justify-center">
+                        <Link to={"/login"}>
+                            <button className="border-2 border-white py-3 px-6 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition w-full">
+                                Login
                             </button>
                         </Link>
                     </div>
