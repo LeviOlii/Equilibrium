@@ -5,9 +5,9 @@ import SearchBar from "./SearchBar";
 
 const Hero = () => {
     return (
-        <div className="flex flex-col min-h-screen"> {/* Added min-h-screen to the main container */}
+        <div className="flex flex-col"> {/* Added min-h-screen to the main container */}
             <section className="bg-mobile-bg w-full flex flex-col md:flex-row font-dmSans items-center md:items-start flex-grow"> {/* Added flex-grow */}
-                    <div className="md:translate-x-40 my-40 p-6 md:p-16 w-full md:w-hero-texts-width mx-4 md:mx-10 text-center md:text-left">
+                    <div className="md:translate-x-40 my-20 p-6 md:p-16 w-full md:w-hero-texts-width mx-4 md:mx-10 text-center md:text-left">
                         <p className="text-desktop-bg font-bold tracking-wider text-sm md:text-base">
                             BOAS-VINDAS A EQUILIBRIUM
                         </p>
@@ -28,7 +28,7 @@ const Hero = () => {
                             <SearchBar />
                         </div>
                     </div>
-                <div className="md:flex flex-auto items-end">
+                <div className="md:flex md:pt-10 flex-auto items-end">
                     <img
                         src={HeroImage}
                         alt="Moça sorrindo representando acolhimento"
