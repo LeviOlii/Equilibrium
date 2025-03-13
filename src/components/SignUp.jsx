@@ -27,7 +27,7 @@ const SingUp = () => {
 
   return (
     <>
-      <body className="bg-desktop-bg h-screen flex items-center justify-center">
+      <body className="bg-desktop-bg min-h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl lg:w-full lg:max-w-lg">
           <form className="mx-10 my-36" onSubmit={handleSubmit}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastre-se!</h1>

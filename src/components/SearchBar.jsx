@@ -13,10 +13,10 @@ const SearchBar = () => {
     };
 
     return (
-        <section className="bg-brand-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">
-            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 md:gap-2 items-center">
+        <section className="bg-brand-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto lg:w-max">
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 md:gap-0 items-center">
                 <select
-                    className="px-1 py-3 border rounded-md w-full md:w-auto"
+                    className="px-1 py-3 border rounded-md w-full md:w-auto lg:mr-2"
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
                 >
@@ -29,7 +29,7 @@ const SearchBar = () => {
                 </select>
 
                 <select
-                    className="px-4 py-3 border rounded-md w-full md:w-auto"
+                    className="px-4 py-3 border rounded-md w-full md:w-auto md:mr-2"
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
                 >
@@ -54,8 +54,7 @@ const SearchBar = () => {
 
                 <button
                     type="submit"
-                    className="bg-brand-green text-white px-4 py-3 md:mx-4 rounded-md hover:bg-brand-green-hover transition w-full md:w-auto"
-                >
+                    className="bg-brand-green text-white px-4 py-3 md:mx-4 rounded-md hover:bg-brand-green-hover transition w-full md:w-auto">
                     Buscar
                 </button>
             </form>
