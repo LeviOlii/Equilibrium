@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  letter-spacing: 0.035em;
+  overflow-x: hidden; 
+}
+
+.bg-brand-green {
+  background-color: #00856F;
+}
+
+.gray-headline {
+  color: #061800;
+}
+
+.bg-brand-green-light {
+  background-color: #DCE9E2;
+}
+
+.hero-height {
+  height: 670px;
+}
+
