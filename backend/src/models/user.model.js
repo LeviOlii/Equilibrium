@@ -5,7 +5,7 @@ const listarUsuarios = async () => {
     return await prisma.usuario.findMany();
 };
 
-const buscarUsuariosPorId = async (id) => {
+const buscarUsuarioPorId = async (id) => {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -19,6 +19,14 @@ const buscarUsuariosPorId = async (id) => {
 
 const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profissionalData }) => {
     
+    const usuarioExistente = await prisma.usuario.findUnique({
+        where: { email },
+    });
+
+    if (usuarioExistente) {
+        throw new Error("E-mail já cadastrado!");
+    }
+
     //Cria usuário na tabela Usuário
     const usuario = await prisma.usuario.create({
         data: {
@@ -30,7 +38,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
     });
 
     //Se for paciente, cria registro na tabela Paciente
-    if (tipo.upperCase() === "PACIENTE" && pacienteData){
+    if (tipo.toUpperCase() === "PACIENTE" && pacienteData){
         await prisma.paciente.create({
             data: {
                 usuario_id: usuario.id,
@@ -44,7 +52,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
         });
     }
     //Se for profissional, cria registro na tabela Paciente
-    if (tipo.upperCase() === "PROFISSIONAL" && pacienteProfissional){
+    if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData){
         await prisma.profissional.create({
             data: {
                 usuario_id: usuario.id,
@@ -110,4 +118,27 @@ const atualizarUsuario = async (id, { nome, email, senha, pacienteData, profissi
     }
 
     return usuarioAtualizado;
+};
+
+const deletarUsuario = async (id) => {
+    // Verifica se existe o usuário
+    const usuario = await prisma.usuario.findUnique({
+        where: { id },
+    });
+
+    if (!usuario) {
+        throw new Error('Usuário não encontrao!');
+    }
+
+    await prisma.usuario.delete({
+        where: { id },
+    });
+};
+
+module.exports = {
+    listarUsuarios,
+    buscarUsuarioPorId,
+    criarUsuario,
+    atualizarUsuario,
+    deletarUsuario,
 };
