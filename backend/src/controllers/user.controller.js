@@ -39,8 +39,8 @@ exports.criarUsuario = async (req, res) => {
         email,
         senha,
         tipo,
-        pacienteData,
-        profissionalData,
+        pacienteData: pacienteData || null, //Define como null se não for do tipo paciente
+        profissionalData: profissionalData || null, //Define como null se não for do tipo profissional
        });
 
        res.status(201).json(novoUsuario);

@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const { register, login } = require('./models/userModel.js');
 
 const app = express();
@@ -21,3 +21,4 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+*/

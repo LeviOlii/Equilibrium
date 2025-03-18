@@ -64,7 +64,6 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
             }
         });
     }
-
     return usuario;
 };
 
