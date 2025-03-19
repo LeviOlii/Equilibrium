@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import Anamnesis from "./Anamnesis.jsx";
+import ProfessionalForm from "./ProfessionalForm.jsx"
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -12,55 +11,22 @@ const SignUp = () => {
 
   const [step, setStep] = useState(1);
 
-  const [datebirth, setDatebirth] = useState('');
-  const [gender, setGender] = useState('');
-  const [complaints, setComplaints] = useState('');
-  const [familyHistory, setFamilyHistory] = useState('');
-  const [medication, setMedication] = useState('');
-  const [goal, setGoal] = useState('');
+  const goToFirstForm = () => {
+    setStep(1);
+  };
   
-  const navigate = useNavigate();
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    if (datebirth && gender && complaints && familyHistory && medication && goal){
-
-      try{
-        const userData = {nome: username, email: email, senha: password, tipo: role.toUpperCase()}
-        console.log(userData)
-        const user = await axios.post("http://localhost:3000/api/auth/signup", userData)  
-
-        navigate('/dashboard')
-
-      } catch(error){
-
-        if (error?.response?.status === 409){
-          console.log(error.response.status)
-          setError("Email ja está cadastrado")
-          setStep(1);
-        }else{
-          setError(error?.data?.message || error?.message)
-        }
-        
-      }
-    
-    }
-    
-    
-
-
-  }
-
   const handleFirstSubmit = async (e) => {
     e.preventDefault();
 
     if (email && password && username && role) {
       
       try{
-
-        setStep(2);    
-
+        if (role === "PACIENTE"){
+          setStep(2);
+        } else{
+          setStep(3);
+        }
+            
       } catch(error){
           setError(error?.data?.message || error?.message)
       }
@@ -72,8 +38,9 @@ const SignUp = () => {
     setError('');
   };
 
-  return (
-    step === 1 ?(  
+
+  const steps = {
+    1: (
       <div className="bg-desktop-bg min-h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl lg:w-full lg:max-w-lg">
           <form className="mx-10 my-36" onSubmit={(e) => handleFirstSubmit(e)}>
@@ -147,99 +114,33 @@ const SignUp = () => {
           </form>
         </div>
       </div>
+    ),
+    2: (
+      <Anamnesis 
+        username={username}
+        email={email}
+        password={password}
+        role={role}
+        goToFirstForm={goToFirstForm}
+        setError={setError}
+        error={error}
+      />
+    ),
+    3: (
+      <ProfessionalForm 
+      username={username}
+      email={email}
+      password={password}
+      role={role}
+      goToFirstForm={goToFirstForm}
+      setError={setError}
+      error={error}
+      />
     )
-    :
-    (
-      <div className="bg-desktop-bg h-screen flex items-center justify-center lg:h-full lg:p-12">
-        <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl w-full max-w-xl">
-          <form className="mx-10 my-36" onSubmit={(e) => handleRegister(e)}>
-            <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do paciente</h1>
+  };
 
-            <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src/assets/icons/signUp.png" alt="signup_icon" />
-            </div>
+  return steps[step];
 
-            {error && <p className="text-red-500">{error}</p>}
-            <label htmlFor="datebirth" className="block text-left">Data de Nascimento</label>
-            <input
-              type="date"
-              placeholder="Insira sua idade"
-              name="datebirth"
-              id="datebirth"
-              className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={datebirth}
-              onChange={(e) => setDatebirth(e.target.value)}
-              required
-            />
-
-            <label htmlFor="complaints" className="block text-left mt-6">Queixas</label>
-            <input
-              type="text"
-              placeholder="Principais queixas"
-              name="complaints"
-              id="complaints"
-              className="bg-mobile-bg italic mb-1 p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={complaints}
-              onChange={(e) => setComplaints(e.target.value)}
-            />
-            
-
-            <label htmlFor="familyHistory" className="block text-left mt-6">Histórico Familiar</label>
-            <input
-              type="text"
-              placeholder="Informe seu histórico familiar (ex.: doenças)"
-              name="familyHistory"
-              id="familyHistory"
-              className="bg-mobile-bg italic mb-1 p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={familyHistory}
-              onChange={(e) => setFamilyHistory(e.target.value)}
-            />
-
-
-            <label htmlFor="medication" className="block text-left mt-6">Uso de medicamentos</label>
-            <input
-              type="text"
-              placeholder="Você faz uso de medicamentos?"
-              name="medication"
-              id="medication"
-              className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={medication}
-              onChange={(e) => setMedication(e.target.value)}
-            />
-
-            <label htmlFor="goal" className="block text-left">Objetivos</label>
-            <input
-              type="text"
-              placeholder="Objetivo da terapia: ex.: ansiedade, luto, autoconhecimento, pessoas neuroatípicas."
-              name="goal"
-              id="goal"
-              className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={goal}
-              onChange={(e) => setGoal(e.target.value)}
-            />
-
-            <label htmlFor="gender" className="block text-left">Gênero</label>
-            <select
-              name="gender"
-              id="gender"
-              className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              required
-            >
-              <option value="">Selecione</option>
-              <option value="masculino">Masculino</option>
-              <option value="feminino">Feminino</option>
-            </select>
-            <br />
-
-            <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
-          </form>
-        </div>
-      </div>
-
-    )
-  );
 };
 
 export default SignUp;

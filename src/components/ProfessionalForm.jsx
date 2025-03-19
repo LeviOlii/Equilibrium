@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ProfessionalForm = () => {
+const ProfessionalForm = ({username,email,password, role, goToFirstForm, setError, error}) => {
   const [speciality, setSpeciality] = useState('');
   const [address, setAddress] = useState('');
   const [freeService, setFreeService] = useState('');
   const [maxAge, setMaxAge] = useState('');
   const [minAge, setMinAge] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const ParseNumber = (setter) => (e) => {
@@ -36,7 +35,7 @@ const ProfessionalForm = () => {
 
   return (
     <>
-      <body className="bg-desktop-bg h-screen flex items-center justify-center">
+      <div className="bg-desktop-bg h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl w-full max-w-xl">
           <form className="mx-10 my-36" onSubmit={handleSubmit}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do profissional</h1>
@@ -107,7 +106,7 @@ const ProfessionalForm = () => {
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
           </form>
         </div>
-      </body>
+      </div>
     </>
   );
 };
