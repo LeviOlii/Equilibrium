@@ -68,32 +68,38 @@ exports.atualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
         const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
+        console.log("Dados recebidos:", req.body);
 
-        //Validação
-       if ((!nome || !email || !senha || !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || !pacienteData.historico_familiar || 
-        !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia) && (tipo.toUpperCase() === "PACIENTE")) {
-        return res.status(400).json({error: error.message});
-       } 
-       
-       if ((!nome || !email || !senha || !profissionalData.especialidade || !profissionalData.localizacao || 
-        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos) && (tipo.toUpperCase() === "PROFISSIONAL")) {
-        return res.status(400).json({error: error.message});
-       }
+        // Validação
+        if (tipo?.toUpperCase() === "PACIENTE") {
+            if (!pacienteData || !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || !pacienteData.historico_familiar || 
+                !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia) {
+                return res.status(400).json({ error: "Dados incompletos para atualizar paciente." });
+            }
+        }
 
-       const usuarioAtualizado = await Usuario.atualizarUsuario(Number(id), {
-        nome,
-        email,
-        senha,
-        tipo,
-        pacienteData,
-        profissionalData,
-       });
+        if (tipo?.toUpperCase() === "PROFISSIONAL") {
+            if (!profissionalData || !profissionalData.especialidade || !profissionalData.localizacao || 
+                !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos) {
+                return res.status(400).json({ error: "Dados incompletos para atualizar profissional." });
+            }
+        }
 
-       res.json(usuarioAtualizado);
-    } catch(error) {
-        res.status(500).json({error: error.message || 'Erro interno ao atualizar usuario'});
+        const usuarioAtualizado = await Usuario.atualizarUsuario(Number(id), {
+            nome,
+            email,
+            senha,
+            tipo,
+            pacienteData,
+            profissionalData,
+        });
+
+        res.json(usuarioAtualizado);
+    } catch (error) {
+        res.status(500).json({ error: error.message || 'Erro interno ao atualizar usuário' });
     }
 };
+
 
 exports.excluirUsuario = async (req, res) => {
     try {

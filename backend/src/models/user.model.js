@@ -67,7 +67,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
     return usuario;
 };
 
-const atualizarUsuario = async (id, { nome, email, senha, pacienteData, profissionalData }) => {
+const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, profissionalData }) => {
     // Verifica se o usuário existe
     const usuario = await prisma.usuario.findUnique({
         where: { id },
@@ -84,12 +84,13 @@ const atualizarUsuario = async (id, { nome, email, senha, pacienteData, profissi
             nome,
             email,
             senha,
+            tipo,
         },
     });
 
     // Se for paciente, atualiza os dados na tabela Paciente
-    if (usuario.tipo === "PACIENTE" && pacienteData) {
-        await prisma.paciente.update({
+    if (usuarioAtualizado.tipo === "PACIENTE" && pacienteData) {
+        await prisma.paciente.updateMany({
             where: { usuario_id: id },
             data: {
                 idade: pacienteData.idade,
@@ -103,7 +104,7 @@ const atualizarUsuario = async (id, { nome, email, senha, pacienteData, profissi
     }
 
     // Se for profissional, atualiza os dados na tabela Profissional
-    if (usuario.tipo === "PROFISSIONAL" && profissionalData) {
+    if (usuarioAtualizado.tipo === "PROFISSIONAL" && profissionalData) {
         await prisma.profissional.update({
             where: { usuario_id: id },
             data: {
