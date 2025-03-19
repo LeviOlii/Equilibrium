@@ -1,5 +1,7 @@
 const Usuario = require('../models/user.model');
 const { profissional } = require('../prisma');
+const bcrypt = require('bcrypt');
+
 
 exports.listarUsuarios = async (req, res) => {
     try {
@@ -44,11 +46,14 @@ exports.criarUsuario = async (req, res) => {
         return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
     }
     
+
+       const hashed_senha = await bcrypt.hash(senha, 14);
+
        
        const novoUsuario = await Usuario.criarUsuario({
         nome,
         email,
-        senha,  
+        hashed_senha,  
         tipo,
         pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null, //Define como null se não for do tipo paciente
         profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissional
@@ -85,10 +90,13 @@ exports.atualizarUsuario = async (req, res) => {
             }
         }
 
+
+        const hashed_senha = await bcrypt.hash(senha, 14);
+
         const usuarioAtualizado = await Usuario.atualizarUsuario(Number(id), {
             nome,
             email,
-            senha,
+            hashed_senha,
             tipo,
             pacienteData,
             profissionalData,
