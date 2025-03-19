@@ -48,19 +48,19 @@ exports.criarUsuario = async (req, res) => {
        const novoUsuario = await Usuario.criarUsuario({
         nome,
         email,
-        senha,
+        senha,  
         tipo,
         pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null, //Define como null se não for do tipo paciente
         profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissional
        });
 
-       res.status(201).json(novoUsuario);
+       return res.status(201).json(novoUsuario);
     } catch(error) {
         if(error.message.includes("E-mail já cadastrado")){
-            res.status(409).json({error: error.message});
+          return res.status(409).json({error: error.message});
         }
 
-        res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
+        return res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
     }
 };
 
