@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const ProfessionalForm = ({username,email,password, role, goToFirstForm, setError, error}) => {
   const [speciality, setSpeciality] = useState('');
   const [address, setAddress] = useState('');
@@ -16,18 +16,49 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    if (parseInt(minAge) > parseInt(maxAge)) {
-      setError('A idade mínima não pode ser maior que a idade máxima');
+    if (parseInt(minAge) > parseInt(maxAge)){
+      setError("A idade mínima não pode ser maior que a idade máxima");
       return;
     }
 
+
+  
     if (speciality && address) {
-      localStorage.setItem('professionalDatas', JSON.stringify({ speciality, freeService, address, minAge, maxAge }));
-      navigate('/dashboard');
+      try{
+        // LEVI, POR FAVOR IMPLEMENTAR
+        const userData = 
+        {
+          nome: username,
+          email: email,
+          senha: password,
+          tipo: role,
+          pacienteData: null,
+          profissionalData:{
+            especialidade: speciality,
+            localizacao: address,
+            faixa_etaria: minAge.concat("-"+maxAge),
+            atendimentos_gratuitos: freeService, // ajeitar isso aq tbm , é pra ser bool
+            foto: "1", // implement form of this  
+          }        
+        }
+
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
+
+        navigate('/dashboard')
+
+      } catch(error){
+          if (error?.response?.status === 409){
+            console.log(error.response.status)
+            setError("Email ja está cadastrado")
+            goToFirstForm();
+          }else{
+            setError(error?.data?.message || error?.message)
+          }
+      }
+      
     } else {
       setError('Por favor, preencha todos os campos corretamente');
     }
@@ -37,7 +68,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
     <>
       <div className="bg-desktop-bg h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl w-full max-w-xl">
-          <form className="mx-10 my-36" onSubmit={handleSubmit}>
+          <form className="mx-10 my-36" onSubmit={(e) => handleSubmit(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do profissional</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">

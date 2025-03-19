@@ -18,7 +18,6 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
     if (age && gender && complaints && familyHistory && medication && goal){
 
       try{
-        // if paciente
         const userData = 
         {
           nome: username,
@@ -26,7 +25,7 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
           senha: password,
           tipo: role,
           pacienteData:{
-            idade: Number(age), // calcular isso
+            idade: Number(age), 
             genero: gender,
             queixas: complaints,
             historico_familiar: familyHistory,
