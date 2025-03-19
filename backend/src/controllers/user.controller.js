@@ -1,4 +1,5 @@
 const Usuario = require('../models/user.model');
+const { profissional } = require('../prisma');
 
 exports.listarUsuarios = async (req, res) => {
     try {
@@ -22,25 +23,35 @@ exports.buscarUsuarioPorId = async (req, res) => {
 exports.criarUsuario = async (req, res) => {
     try {
        const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
+       console.log("Dados recebidos:", req.body); 
 
        //Validação
-       if ((!nome || !email || !senha || !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || !pacienteData.historico_familiar || 
-        !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia) && (tipo.toUpperCase() === "PACIENTE")) {
-        return res.status(400).json({error: 'Dado(s) obrigatório(s) não preenchido(s)!'})
-       } 
-       
-       if ((!nome || !email || !senha || !profissionalData.especialidade || !profissionalData.localizacao || 
-        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos || !profissionalData.foto) && (tipo.toUpperCase() === "PROFISSIONAL")) {
-        return res.status(400).json({error: 'Dado(s) obrigatório(s) não preenchido(s)!'})
-       }
+       if (
+        tipo.toUpperCase() === "PACIENTE" &&
+        (!nome || !email || !senha || !pacienteData || 
+        !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || 
+        !pacienteData.historico_familiar || !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia)
+    ) {
+        return res.status(400).json({ error: "Dados incompletos para cadastro de paciente." });
+    }
+    
+    if (
+        tipo.toUpperCase() === "PROFISSIONAL" &&
+        (!nome || !email || !senha || !profissionalData ||
+        !profissionalData.especialidade || !profissionalData.localizacao || 
+        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos || !profissionalData.foto)
+    ) {
+        return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
+    }
+    
        
        const novoUsuario = await Usuario.criarUsuario({
         nome,
         email,
         senha,
         tipo,
-        pacienteData: pacienteData || null, //Define como null se não for do tipo paciente
-        profissionalData: profissionalData || null, //Define como null se não for do tipo profissional
+        pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null, //Define como null se não for do tipo paciente
+        profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissional
        });
 
        res.status(201).json(novoUsuario);
@@ -49,7 +60,7 @@ exports.criarUsuario = async (req, res) => {
             res.status(409).json({error: error.message});
         }
 
-        res.status(500).json({error: 'Erro interno na criação de usuário!'});
+        res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
     }
 };
 
@@ -61,12 +72,12 @@ exports.atualizarUsuario = async (req, res) => {
         //Validação
        if ((!nome || !email || !senha || !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || !pacienteData.historico_familiar || 
         !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia) && (tipo.toUpperCase() === "PACIENTE")) {
-        return res.status(400).json({error: 'Dado(s) obrigatório(s) não preenchido(s)!'})
+        return res.status(400).json({error: error.message});
        } 
        
        if ((!nome || !email || !senha || !profissionalData.especialidade || !profissionalData.localizacao || 
-        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos || !profissionalData.foto) && (tipo.toUpperCase() === "PROFISSIONAL")) {
-        return res.status(400).json({error: 'Dado(s) obrigatório(s) não preenchido(s)!'})
+        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos) && (tipo.toUpperCase() === "PROFISSIONAL")) {
+        return res.status(400).json({error: error.message});
        }
 
        const usuarioAtualizado = await Usuario.atualizarUsuario(Number(id), {
