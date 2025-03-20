@@ -1,5 +1,7 @@
 const Usuario = require('../models/user.model');
 const { profissional } = require('../prisma');
+const bcrypt = require('bcrypt');
+
 
 exports.listarUsuarios = async (req, res) => {
     try {
@@ -44,23 +46,26 @@ exports.criarUsuario = async (req, res) => {
         return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
     }
     
+
+       const hashed_senha = await bcrypt.hash(senha, 14);
+
        
        const novoUsuario = await Usuario.criarUsuario({
         nome,
         email,
-        senha,
+        hashed_senha,  
         tipo,
         pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null, //Define como null se não for do tipo paciente
         profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissional
        });
 
-       res.status(201).json(novoUsuario);
+       return res.status(201).json(novoUsuario);
     } catch(error) {
         if(error.message.includes("E-mail já cadastrado")){
-            res.status(409).json({error: error.message});
+          return res.status(409).json({error: error.message});
         }
 
-        res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
+        return res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
     }
 };
 
@@ -85,10 +90,13 @@ exports.atualizarUsuario = async (req, res) => {
             }
         }
 
+
+        const hashed_senha = await bcrypt.hash(senha, 14);
+
         const usuarioAtualizado = await Usuario.atualizarUsuario(Number(id), {
             nome,
             email,
-            senha,
+            hashed_senha,
             tipo,
             pacienteData,
             profissionalData,

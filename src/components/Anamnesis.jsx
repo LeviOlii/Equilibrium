@@ -1,34 +1,65 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Anamnesis = () => {
-  const [datebirth, setDatebirth] = useState('');
+const Anamnesis = ({username,email,password, role, goToFirstForm, setError, error}) => {
+  const [age, setage] = useState('');
   const [gender, setGender] = useState('');
   const [complaints, setComplaints] = useState('');
   const [familyHistory, setFamilyHistory] = useState('');
   const [medication, setMedication] = useState('');
   const [goal, setGoal] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (datebirth && gender) {
+  const handleRegister = async (e) => {
 
-      localStorage.setItem('Anamnesis', JSON.stringify({ datebirth, gender, complaints, familyHistory, medication, goal }));
-      
-      navigate('/dashboard');
-    } else {
-      setError('Por favor, preencha todos os campos');
+    e.preventDefault();
+
+    if (age && gender && complaints && familyHistory && medication && goal){
+
+      try{
+        const userData = 
+        {
+          nome: username,
+          email: email,
+          senha: password,
+          tipo: role,
+          pacienteData:{
+            idade: Number(age), 
+            genero: gender,
+            queixas: complaints,
+            historico_familiar: familyHistory,
+            uso_medicamentos: medication,
+            objetivo_terapia: goal
+          },
+          profissionalData:null        
+        }
+        console.log(userData)
+
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
+
+        navigate('/dashboard')
+
+      } catch(error){
+
+        if (error?.response?.status === 409){
+          console.log(error.response.status)
+          setError("Email ja está cadastrado")
+          goToFirstForm();
+        }else{
+          setError(error?.data?.message || error?.message)
+        }
+        
+      }
+    
     }
   };
 
   return (
     <>
-      <body className="bg-desktop-bg h-screen flex items-center justify-center lg:h-full lg:p-12">
+      <div className="bg-desktop-bg h-screen flex items-center justify-center lg:h-full lg:p-12">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl w-full max-w-xl">
-          <form className="mx-10 my-36" onSubmit={handleSubmit}>
+          <form className="mx-10 my-36" onSubmit={(e) => handleRegister(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do paciente</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
@@ -36,15 +67,18 @@ const Anamnesis = () => {
             </div>
 
             {error && <p className="text-red-500">{error}</p>}
-            <label htmlFor="datebirth" className="block text-left">Data de Nascimento</label>
+            <label htmlFor="age" className="block text-left">Idade</label>
             <input
-              type="date"
+              type="number"
+              step="1"
+              min="1"
+              max="100"
               placeholder="Insira sua idade"
-              name="datebirth"
-              id="datebirth"
+              name="age"
+              id="age"
               className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-full"
-              value={datebirth}
-              onChange={(e) => setDatebirth(e.target.value)}
+              value={age}
+              onChange={(e) => setage(e.target.value)}
               required
             />
 
@@ -112,7 +146,7 @@ const Anamnesis = () => {
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
           </form>
         </div>
-      </body>
+      </div>
     </>
   );
 };
