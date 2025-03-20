@@ -15,7 +15,12 @@ const AccountLogin = () => {
 
     if (email && password) {
       try{
-        const user = await axios.post("http://localhost:3000/api/login", userData)
+        const user = await axios.post("http://localhost:3000/api/login", userData, {
+          withCredentials: true
+        });
+
+        navigate('/');
+
       } catch (error){
         if (error?.response?.status === 409){
           setError("Email ja está cadastrado")
@@ -24,7 +29,6 @@ const AccountLogin = () => {
         }
       }
         
-
     } else {
       setError('Email ou senha incorretos');
     }
@@ -32,9 +36,9 @@ const AccountLogin = () => {
 
   return (
     <>
-      <body className="bg-desktop-bg h-screen flex items-center justify-center">
+      <div className="bg-desktop-bg h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl lg:w-full lg:max-w-md">
-          <form className="mx-10 my-36" onSubmit={handleSubmit}>
+          <form className="mx-10 my-36" onSubmit={(e) => handleSubmit(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Seja bem-vindo(a)!</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
@@ -72,7 +76,7 @@ const AccountLogin = () => {
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Login</button>
           </form>
         </div>
-      </body>
+      </div>
     </>
   );
 };
