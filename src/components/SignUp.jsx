@@ -21,9 +21,9 @@ const SignUp = () => {
     if (email && password && username && role) {
       
       try{
-        if (role === "PACIENTE"){
+        if (role === "paciente"){
           setStep(2);
-        } else{
+        } else if (role === "profissional"){
           setStep(3);
         }
             
