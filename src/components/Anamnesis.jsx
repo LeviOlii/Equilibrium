@@ -34,9 +34,10 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
           },
           profissionalData:null        
         }
-        console.log(userData)
 
-        const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData,{
+          withCredentials: true
+        })  
 
         navigate('/dashboard')
 
