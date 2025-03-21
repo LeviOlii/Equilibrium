@@ -33,7 +33,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
             nome,
             email,
             senha, 
-            tipo,
+            tipo: tipo.toUpperCase(),
         },
     });
 
