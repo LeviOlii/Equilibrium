@@ -6,8 +6,8 @@ import Testimony from "./pages/Testimony";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import SingUp from "./components/SignUp.jsx";
-import Anamnesis from "./components/Anamnesis.jsx";
-import ProfessionalForm from "./components/ProfessionalForm.jsx";
+//import Anamnesis from "./components/Anamnesis.jsx";
+//import ProfessionalForm from "./components/ProfessionalForm.jsx";
 
 
 const App = () => {
@@ -21,8 +21,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SingUp />} />
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/anamnesis" element={<Anamnesis />}/>
-        <Route path="/professional" element={<ProfessionalForm />}/>
+        {/*<Route path="/anamnesis" element={<Anamnesis />}/>
+        <Route path="/professional" element={<ProfessionalForm />}/>*/}
         
       </Routes>
     </Router>
