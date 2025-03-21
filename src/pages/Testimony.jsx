@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Testimony = () => {
     const [name, setName] = useState("");
     const [role, setRole] = useState("");
     const [testimony, setTestimony] = useState("");
     const [isAnonymous, setIsAnonymous] = useState(false);
+    const [message, setMessage] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const newTestimony = {
@@ -15,12 +17,21 @@ const Testimony = () => {
             testimony,
         };
 
-        console.log("Novo depoimento enviado:", newTestimony);
-
-        setName("");
-        setRole("");
-        setTestimony("");
-        setIsAnonymous(false);
+        try {
+            const response = await axios.post("http://localhost:3001/api/depoimentos", newTestimony);
+            if (response.status === 201) {
+                setMessage("Depoimento enviado com sucesso!");
+                setName("");
+                setRole("");
+                setTestimony("");
+                setIsAnonymous(false);
+            } else {
+                setMessage("Erro ao enviar depoimento.");
+            }
+        } catch (error) {
+            console.error("Erro ao enviar depoimento:", error);
+            setMessage("Erro ao conectar com o servidor.");
+        }
     };
 
     return (
@@ -29,6 +40,8 @@ const Testimony = () => {
                 <h2 className="text-3xl font-bold text-desktop-bg text-center mb-6">Deixe seu Depoimento</h2>
                 <p className="text-gray-600 text-center mb-6">Compartilhe sua experiência e ajude outras pessoas a conhecerem a Equilibrium.</p>
                 
+                {message && <p className="text-center text-green-600">{message}</p>}
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {!isAnonymous && (
                         <>
@@ -80,3 +93,4 @@ const Testimony = () => {
 };
 
 export default Testimony;
+
