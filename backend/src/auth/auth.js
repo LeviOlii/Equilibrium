@@ -13,7 +13,7 @@ const login = async (req, res) => {
     if (!usuario) {
         throw new Error('Email não cadastrado');
     }
-
+    
     const success = await bcrypt.compare(senha, usuario.senha);
 
     if (success) {
@@ -39,28 +39,23 @@ const login = async (req, res) => {
     }
 }
 
-function checkAuth(req, res, next) {
+function checkAuth(req, res) {
     const token = req.cookies.token; // cookie-parser faz a mágica
 
-    console.log(token);
-
     if (!token) {
-        req.isLoggedIn = false;
-        return next();
+       return res.json({ isLoggedIn: false });
     }
 
     try {
+
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const { id, tipo } = decoded;
-
-        req.isLoggedIn = true;
-        req.user = { id, tipo };
+        return res.json({ isLoggedIn: true , user: {id,tipo}});
 
     } catch (err) {
-        req.isLoggedIn = false;
+        return res.json({ isLoggedIn: false });
     }
 
-    next();
 }
 
 
