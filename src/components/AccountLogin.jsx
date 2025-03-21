@@ -10,25 +10,26 @@ const AccountLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const userData = {email:email, senha:password}
+
+    const userData = { email: email, senha: password }
 
     if (email && password) {
-      try{
+      try {
         const user = await axios.post("http://localhost:3000/api/login", userData, {
           withCredentials: true
         });
 
+
         navigate('/');
 
-      } catch (error){
-        if (error?.response?.status === 409){
+      } catch (error) {
+        if (error?.response?.status === 409) {
           setError("Email ja está cadastrado")
-        }else{
+        } else {
           setError(error?.data?.message || error?.message)
         }
       }
-        
+
     } else {
       setError('Email ou senha incorretos');
     }
