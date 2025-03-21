@@ -124,11 +124,11 @@ exports.atualizarUsuario = async (req, res) => {
 };
 
 
-exports.excluirUsuario = async (req, res) => {
+exports.deletarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
 
-        await Usuario.excluirUsuario(Number(id));
+        await Usuario.deletarUsuario(Number(id));
         res.status(204).send();
     } catch (error) {
         res.status(500).json({error: error.message || 'Erro interno ao excluir usuario'})

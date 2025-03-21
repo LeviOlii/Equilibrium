@@ -9,7 +9,7 @@ router.get("/usuarios", userController.listarUsuarios);
 router.get("/usuarios/:id", userController.buscarUsuarioPorId);
 router.post("/usuarios", userController.criarUsuario);
 router.put("/usuarios/:id", userController.atualizarUsuario);
-router.delete("/usuarios:id", userController.excluirUsuario);
+router.delete("/usuarios/:id", userController.deletarUsuario);
 
 router.get("/check-auth", auth.checkAuth);
 
