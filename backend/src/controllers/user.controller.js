@@ -1,6 +1,8 @@
 const Usuario = require('../models/user.model');
 const { profissional } = require('../prisma');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
 
 
 exports.listarUsuarios = async (req, res) => {
@@ -57,6 +59,21 @@ exports.criarUsuario = async (req, res) => {
         profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissional
        });
 
+       if (novoUsuario) {
+            const token = jwt.sign(
+                { tipo: novoUsuario.tipo, id: novoUsuario.id },
+                process.env.SECRET_KEY,
+                { expiresIn: "24h" } // add option for 30 days
+            )
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                //secure: true
+                sameSite: "Lax",
+                maxAge: 1 * 60 * 60 * 1000 // 24h
+            })
+
+        }   
        return res.status(201).json(novoUsuario);
     } catch(error) {
         if(error.message.includes("E-mail já cadastrado")){
