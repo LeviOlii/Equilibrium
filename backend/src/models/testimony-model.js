@@ -1,9 +1,24 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const TestimonySchema = new mongoose.Schema({
-    name: { type: String, default: "Anônimo" },
-    role: { type: String, default: "Usuário" },
-    testimony: { type: String, required: true }
-}, { timestamps: true });
+const Testimony = sequelize.define("Testimony", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    testimony: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+});
 
-module.exports = mongoose.model("Testimony", TestimonySchema);
+module.exports = Testimony;
