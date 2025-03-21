@@ -73,16 +73,14 @@ const Header = () => {
                     </Link>
                 </div>)}
 
-                {isLogged && ( 
+                {isLogged 
+                // POR FAVOR AJUDA A IMPLEMENTAR ISTO
+                && ( 
+                    
                 <div className="hidden md:flex md:space-x-4">
-                    <Link to="/login">
+                    <Link to="/login">  
                         <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
                             TEST
-                        </button>
-                    </Link>
-                    <Link to="/signup">
-                        <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
-                            ESTOU LOGADO
                         </button>
                     </Link>
                 </div>)}
