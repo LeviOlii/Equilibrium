@@ -38,9 +38,11 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
 
         console.log(userData);
 
-        const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData, {
+          withCredentials: true
+        })  
 
-        navigate('/dashboard')
+        navigate('/')
 
       } catch(error){
           if (error?.response?.status === 409){
@@ -100,11 +102,11 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               required
             >
               <option value="">Selecione</option>
-              <option value="SP">São Paulo</option>
-              <option value="RJ">Rio De Janeiro</option>
-              <option value="MG">Minas Gerais</option>
-              <option value="BH">Bahia</option>
-              <option value="PR">Paraná</option>
+              <option value="São Paulo">São Paulo</option>
+              <option value="Rio De Janeiro">Rio De Janeiro</option>
+              <option value="Minas Gerais">Minas Gerais</option>
+              <option value="Bahia">Bahia</option>
+              <option value="Paraná">Paraná</option>
             </select>
             <br />
             <label htmlFor="ageRange" className="block text-left">Faixa etária de atendimento desejada</label>
