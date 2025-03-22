@@ -73,7 +73,7 @@ const SearchProfessional = () => {
   return (
     <>
     
-    <Header />
+    <Header renderButtons={false}/>
     <section className="flex flex-col items-center bg-white">
       {/* Filtros de pesquisa */}
       <div className="w-3/5 bg-gray-200 p-8 rounded-lg shadow-lg mt-8 flex flex-col items-center">

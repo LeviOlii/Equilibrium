@@ -5,7 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react"; 
 import axios from "axios";
 
-const Header = () => {
+const Header = ({renderButtons = true}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLogged, setLoggedIn] = useState(false);
     
@@ -38,12 +38,13 @@ const Header = () => {
         checkAuth();
     }, []);
 
-
     return (
         <header className="bg-desktop-bg text-white p-6 font-dmSans tracking-wide">
             <div className="container mx-auto flex justify-between items-center">
+                <Link to="/">
                 <h1 className="text-2xl text-white">Equili<span className="font-bold">brium</span></h1>
-
+                </Link>
+                {renderButtons && (
                 <nav className="hidden md:flex md:space-x-6 md:ml-28">
                     <button onClick={() => scrollToSection("inicio")} className="hover:underline">
                         Início
@@ -57,7 +58,7 @@ const Header = () => {
                     <button onClick={() => scrollToSection("depoimentos")} className="hover:underline">
                         Depoimentos
                     </button>
-                </nav>
+                </nav>)}
                 
 
                 {!isLogged && ( 
@@ -80,7 +81,7 @@ const Header = () => {
                     
                 <div className="hidden md:flex md:space-x-4">
                     
-                    <Link to="/dashboard">
+                    <Link to="/profile">
                         <div className="user_icon w-20 h-11 mx-auto mb-1">
                                 <button><img src="src\assets\icons\logged_user.png" alt="user_icon" /></button>
                         </div>
