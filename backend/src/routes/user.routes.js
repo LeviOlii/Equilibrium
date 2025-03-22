@@ -13,6 +13,7 @@ router.delete("/usuarios/:id", userController.deletarUsuario);
 
 router.get("/check-auth", auth.checkAuth);
 
+router.post("/logout", auth.logout);
 router.post("/login", auth.login);
 
 module.exports = router;
