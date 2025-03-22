@@ -84,10 +84,10 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
           
               >
                 <option value="">Selecione</option>
-                <option value="terapia_infantil">Terapia Infantil</option>
+                <option value="terapia-infantil">Terapia Infantil</option>
                 <option value="ansiedade">Ansiedade</option>
                 <option value="depressao">Depressão</option>
-                <option value="terapia_casal">Terapia de Casal</option>
+                <option value="casal">Terapia de Casal</option>
             </select>
             <br />
             <label htmlFor="localization" className="block text-left mt-6">Localização</label>
@@ -145,8 +145,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               
             </select>
             <br />
-    
-            
+                
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
           </form>
         </div>
