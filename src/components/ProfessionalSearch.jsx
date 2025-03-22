@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from "./Header";
 
 const SearchProfessional = () => {
   const [specialty, setSpecialty] = useState('');
@@ -70,11 +71,10 @@ const SearchProfessional = () => {
   };
 
   return (
+    <>
+    
+    <Header />
     <section className="flex flex-col items-center bg-white">
-      <h1 className="text-gray-headline text-3xl font-thin italic bg-desktop-bg flex items-center justify-center w-full h-20">
-        Encontre um especialista próximo de você!
-      </h1>
-
       {/* Filtros de pesquisa */}
       <div className="w-3/5 bg-gray-200 p-8 rounded-lg shadow-lg mt-8 flex flex-col items-center">
         <h2 className="text-gray-700 font-thin text-2xl italic mb-4">Filtrar Profissionais</h2>
@@ -161,7 +161,9 @@ const SearchProfessional = () => {
           ))
         )}
       </div>
-    </section>
+      </section>
+    </>
+
   );
 };
 

@@ -28,6 +28,7 @@ const Header = () => {
             } else {
                 setLoggedIn(false);
             }
+
         } catch (err) {
             console.error("Erro ao checar auth:", err);
             setLoggedIn(false);
@@ -78,10 +79,11 @@ const Header = () => {
                 && ( 
                     
                 <div className="hidden md:flex md:space-x-4">
-                    <Link to="/login">  
-                        <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
-                            TEST
-                        </button>
+                    
+                    <Link to="/dashboard">
+                        <div className="user_icon w-20 h-11 mx-auto mb-1">
+                                <button><img src="src\assets\icons\logged_user.png" alt="user_icon" /></button>
+                        </div>
                     </Link>
                 </div>)}
 

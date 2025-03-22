@@ -8,6 +8,10 @@ const cors = require('cors');
 
 app.use(cors());
 
+// botoes n tao funcionando
+// inclusão
+//  
+
 app.use(cookieParser());
 
 app.use(express.json());

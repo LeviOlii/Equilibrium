@@ -9,6 +9,10 @@ import SingUp from "./components/SignUp.jsx";
 //import Anamnesis from "./components/Anamnesis.jsx";
 //import ProfessionalForm from "./components/ProfessionalForm.jsx";
 
+import Profile from "./pages/Profile.jsx";
+import ProfessionalForm from "./components/ProfessionalForm.jsx";
+import ProfessinalSearch from "./components/ProfessionalSearch.jsx";
+
 
 const App = () => {
   return (
@@ -21,9 +25,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SingUp />} />
         <Route path="/dashboard" element={<Dashboard />}/>
-        {/*<Route path="/anamnesis" element={<Anamnesis />}/>
-        <Route path="/professional" element={<ProfessionalForm />}/>*/}
+        <Route path="/professional" element={<ProfessionalForm />}/>
         <Route path="/profile" element={<Profile />}/>
+        <Route path="/search" element={<ProfessinalSearch />}/>
         
       </Routes>
     </Router>

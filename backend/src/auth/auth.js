@@ -55,7 +55,7 @@ function checkAuth(req, res) {
     } catch (err) {
         return res.json({ isLoggedIn: false });
     }
-
+    
 }
 
 

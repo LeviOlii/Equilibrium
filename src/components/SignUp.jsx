@@ -8,7 +8,7 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('paciente');
   const [error, setError] = useState('');
-
+  
   const [step, setStep] = useState(1);
 
   const goToFirstForm = () => {
