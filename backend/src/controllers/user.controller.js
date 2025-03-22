@@ -1,5 +1,5 @@
 const Usuario = require('../models/user.model');
-const { profissional } = require('../prisma');
+const { profissional } = require('../prisma')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
@@ -25,7 +25,8 @@ exports.buscarUsuarioPorId = async (req, res) => {
 exports.criarUsuario = async (req, res) => {
     try {
        const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
-       console.log("Dados recebidos:", req.body); 
+       console.log("Dados recebidos:", req.body);
+        
 
        //Validação
        if (
@@ -41,7 +42,8 @@ exports.criarUsuario = async (req, res) => {
         tipo.toUpperCase() === "PROFISSIONAL" &&
         (!nome || !email || !senha || !profissionalData ||
         !profissionalData.especialidade || !profissionalData.localizacao || 
-        !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos || !profissionalData.foto)
+        !profissionalData.faixa_etaria || (profissionalData.atendimentos_gratuitos === undefined || profissionalData.atendimentos_gratuitos === null)
+        || !profissionalData.foto)
     ) {
         return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
     }
