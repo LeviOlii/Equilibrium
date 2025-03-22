@@ -11,7 +11,7 @@ const login = async (req, res) => {
     });
 
     if (!usuario) {
-        throw new Error('Email não cadastrado');
+        return res.status(404).json({"message":"Email não cadastrado"});
     }
     
     const success = await bcrypt.compare(senha, usuario.senha);

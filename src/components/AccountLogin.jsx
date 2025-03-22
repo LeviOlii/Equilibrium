@@ -23,8 +23,8 @@ const AccountLogin = () => {
         navigate('/');
 
       } catch (error) {
-        if (error?.response?.status === 409) {
-          setError("Email ja está cadastrado")
+        if (error?.response?.data?.message === "Email não cadastrado") {
+          setError("Email não está cadastrado")
         } else {
           setError(error?.data?.message || error?.message)
         }
