@@ -1,39 +1,53 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Anamnesis from "./Anamnesis.jsx";
+import ProfessionalForm from "./ProfessionalForm.jsx"
 
-const SingUp = () => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('paciente');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const [step, setStep] = useState(1);
+
+  const goToFirstForm = () => {
+    setStep(1);
+  };
+  
+  const handleFirstSubmit = async (e) => {
     e.preventDefault();
 
     if (email && password && username && role) {
-      localStorage.setItem('user', JSON.stringify({ email, password, username, role }));
       
-      if (role === 'pacient') {
-        navigate('/anamnesis');
-      } else if (role === 'professional') {
-        navigate('/professional');
+      try{
+        if (role === "paciente"){
+          setStep(2);
+        } else if (role === "profissional"){
+          setStep(3);
+        }
+            
+      } catch(error){
+          setError(error?.data?.message || error?.message)
       }
+
     } else {
       setError('Por favor, preencha todos os campos');
     }
+
+    setError('');
   };
 
-  return (
-    <>
-      <body className="bg-desktop-bg min-h-screen flex items-center justify-center">
+
+  const steps = {
+    1: (
+      <div className="bg-desktop-bg min-h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl lg:w-full lg:max-w-lg">
-          <form className="mx-10 my-36" onSubmit={handleSubmit}>
+          <form className="mx-10 my-36" onSubmit={(e) => handleFirstSubmit(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastre-se!</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src/assets/icons/signUp.png" alt="singup_icon" />
+              <img src="src/assets/icons/signUp.png" alt="SignUp_icon" />
             </div>
 
             {error && <p className="text-red-500">{error}</p>}
@@ -77,8 +91,8 @@ const SingUp = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="pacient"
-                  checked={role === 'pacient'}
+                  value="paciente"
+                  checked={role === 'paciente'}
                   onChange={(e) => setRole(e.target.value)}
                 />
                 <span className="ml-2">Paciente</span>
@@ -87,8 +101,8 @@ const SingUp = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="professional"
-                  checked={role === 'professional'}
+                  value="profissional"
+                  checked={role === 'profissional'}
                   onChange={(e) => setRole(e.target.value)}
                 />
                 <span className="ml-2">Profissional</span>
@@ -99,9 +113,34 @@ const SingUp = () => {
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Cadastrar-se</button>
           </form>
         </div>
-      </body>
-    </>
-  );
+      </div>
+    ),
+    2: (
+      <Anamnesis 
+        username={username}
+        email={email}
+        password={password}
+        role={role}
+        goToFirstForm={goToFirstForm}
+        setError={setError}
+        error={error}
+      />
+    ),
+    3: (
+      <ProfessionalForm 
+      username={username}
+      email={email}
+      password={password}
+      role={role}
+      goToFirstForm={goToFirstForm}
+      setError={setError}
+      error={error}
+      />
+    )
+  };
+
+  return steps[step];
+
 };
 
-export default SingUp;
+export default SignUp;

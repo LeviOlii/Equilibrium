@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const ProfessionalForm = () => {
+import axios from 'axios';
+const ProfessionalForm = ({username,email,password, role, goToFirstForm, setError, error}) => {
   const [speciality, setSpeciality] = useState('');
   const [address, setAddress] = useState('');
   const [freeService, setFreeService] = useState('');
   const [maxAge, setMaxAge] = useState('');
   const [minAge, setMinAge] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const ParseNumber = (setter) => (e) => {
@@ -17,18 +16,49 @@ const ProfessionalForm = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    if (parseInt(minAge) > parseInt(maxAge)) {
-      setError('A idade mínima não pode ser maior que a idade máxima');
+    if (parseInt(minAge) > parseInt(maxAge)){
+      setError("A idade mínima não pode ser maior que a idade máxima");
       return;
     }
 
+
+  
     if (speciality && address) {
-      localStorage.setItem('professionalDatas', JSON.stringify({ speciality, freeService, address, minAge, maxAge }));
-      navigate('/dashboard');
+      try{
+        // LEVI, POR FAVOR IMPLEMENTAR
+        const userData = 
+        {
+          nome: username,
+          email: email,
+          senha: password,
+          tipo: role,
+          pacienteData: null,
+          profissionalData:{
+            especialidade: speciality,
+            localizacao: address,
+            faixa_etaria: minAge.concat("-"+maxAge),
+            atendimentos_gratuitos: freeService, // ajeitar isso aq tbm , é pra ser bool
+            foto: "1", // implement form of this  
+          }        
+        }
+
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
+
+        navigate('/dashboard')
+
+      } catch(error){
+          if (error?.response?.status === 409){
+            console.log(error.response.status)
+            setError("Email ja está cadastrado")
+            goToFirstForm();
+          }else{
+            setError(error?.data?.message || error?.message)
+          }
+      }
+      
     } else {
       setError('Por favor, preencha todos os campos corretamente');
     }
@@ -36,9 +66,9 @@ const ProfessionalForm = () => {
 
   return (
     <>
-      <body className="bg-desktop-bg h-screen flex items-center justify-center">
+      <div className="bg-desktop-bg h-screen flex items-center justify-center">
         <div className="loginContainer text-center border-solid border-1 bg-brand-white text-black rounded-2xl font-dmSans font-extralight shadow-2xl w-full max-w-xl">
-          <form className="mx-10 my-36" onSubmit={handleSubmit}>
+          <form className="mx-10 my-36" onSubmit={(e) => handleSubmit(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do profissional</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
@@ -107,7 +137,7 @@ const ProfessionalForm = () => {
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
           </form>
         </div>
-      </body>
+      </div>
     </>
   );
 };

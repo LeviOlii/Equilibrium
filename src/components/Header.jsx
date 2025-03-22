@@ -2,16 +2,41 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react"; 
+import axios from "axios";
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-
+    const [isLogged, setLoggedIn] = useState(false);
+    
     const scrollToSection = (id) => {
         const section = document.getElementById(id);
         if (section) {
             section.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    useEffect(() => {
+        const checkAuth = async () => {
+        try {
+            const res = await axios.get("http://localhost:3000/api/check-auth", {
+            withCredentials: true,
+            });
+
+            if (res.data.isLoggedIn) {
+                setLoggedIn(true);
+            } else {
+                setLoggedIn(false);
+            }
+        } catch (err) {
+            console.error("Erro ao checar auth:", err);
+            setLoggedIn(false);
+        }
+        };
+
+        checkAuth();
+    }, []);
+
 
     return (
         <header className="bg-desktop-bg text-white p-6 font-dmSans tracking-wide">
@@ -34,6 +59,7 @@ const Header = () => {
                 </nav>
                 
 
+                {!isLogged && ( 
                 <div className="hidden md:flex md:space-x-4">
                     <Link to="/login">
                         <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
@@ -45,7 +71,19 @@ const Header = () => {
                             BUSQUE AJUDA
                         </button>
                     </Link>
-                </div>
+                </div>)}
+
+                {isLogged 
+                // POR FAVOR AJUDA A IMPLEMENTAR ISTO
+                && ( 
+                    
+                <div className="hidden md:flex md:space-x-4">
+                    <Link to="/login">  
+                        <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
+                            TEST
+                        </button>
+                    </Link>
+                </div>)}
 
                 <button
                     className="md:hidden"
