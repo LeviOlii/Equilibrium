@@ -1,15 +1,24 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 
 const SearchBar = () => {
-    const [search, setSearch] = useState("");
     const [region, setRegion] = useState("");
     const [specialty, setSpecialty] = useState("");
     const [ageGroup, setAgeGroup] = useState("");
 
+    const navigate = useNavigate(); // Hook para navegação
+
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("Busca por:", { search, region, specialty, ageGroup });
+
+        // Criando query params para passar os filtros
+        const queryParams = new URLSearchParams();
+        if (region) queryParams.append("region", region);
+        if (specialty) queryParams.append("specialty", specialty);
+        if (ageGroup) queryParams.append("ageGroup", ageGroup);
+
+    
+        navigate(`/search?${queryParams.toString()}`);
     };
 
     return (
