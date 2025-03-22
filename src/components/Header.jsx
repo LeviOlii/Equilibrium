@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react"; 
@@ -8,13 +8,23 @@ import axios from "axios";
 const Header = ({renderButtons = true}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLogged, setLoggedIn] = useState(false);
-    
+    const navigate = useNavigate();
+
     const scrollToSection = (id) => {
         const section = document.getElementById(id);
         if (section) {
             section.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    const handleLogout = async () => {
+        try {
+          await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true }); 
+          navigate("/"); 
+        } catch (err) {
+          console.error("Erro ao fazer logout:", err);
+        }
+      };
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -43,7 +53,7 @@ const Header = ({renderButtons = true}) => {
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/">
                 <h1 className="text-2xl text-white">Equili<span className="font-bold">brium</span></h1>
-                </Link>
+                </Link> 
                 {renderButtons && (
                 <nav className="hidden md:flex md:space-x-6 md:ml-28">
                     <button onClick={() => scrollToSection("inicio")} className="hover:underline">
@@ -76,7 +86,6 @@ const Header = ({renderButtons = true}) => {
                 </div>)}
 
                 {isLogged 
-                // POR FAVOR AJUDA A IMPLEMENTAR ISTO
                 && ( 
                     
                 <div className="hidden md:flex md:space-x-4">
@@ -85,6 +94,11 @@ const Header = ({renderButtons = true}) => {
                         <div className="user_icon w-20 h-11 mx-auto mb-1">
                                 <button><img src="src\assets\icons\logged_user.png" alt="user_icon" /></button>
                         </div>
+                    </Link>
+                    <Link to="/api/logout">
+                        <button onClick={handleLogout} className="border-2 border-white px-6 py-3 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
+                            Sair
+                        </button>
                     </Link>
                 </div>)}
 
