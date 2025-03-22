@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  const userId = 1; // mudar pra pegar o id do token jwt do usuário q tá logado
-
+  const navigate = useNavigate();
 
 //colocar a opção de editar os dados tbm
   useEffect(() => {
     const carregarDadosUsuario = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
-        setUser(response.data);
+        const resId = await axios.get("http://localhost:3000/api/check-auth", {
+          withCredentials: true,
+          });
+
+          if (resId.data.isLoggedIn) {
+              const userId = resId.data.user.id;
+              const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+              setUser(response.data);      
+          } else {
+              navigate('/login');
+          }
+
+       
       } catch (err) {
         setError('Erro ao carregar os dados');
       }
     };
 
     carregarDadosUsuario();
-  }, [userId]);
+  });
 
   if (error) {
     return <p>{error}</p>;
