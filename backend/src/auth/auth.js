@@ -39,6 +39,13 @@ const login = async (req, res) => {
     }
 }
 
+const logout = async(req,res) => {
+    res.clearCookie('token', {path:"/"});
+    res.status(200).json({"message":"Logout concluido"});
+}
+
+
+
 function checkAuth(req, res) {
     const token = req.cookies.token; // cookie-parser faz a mágica
 
@@ -50,7 +57,7 @@ function checkAuth(req, res) {
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const { id, tipo } = decoded;
-        return res.json({ isLoggedIn: true , user: {id,tipo}});
+        return res.json({ isLoggedIn: true , user: {id}});
 
     } catch (err) {
         return res.json({ isLoggedIn: false });
@@ -60,7 +67,7 @@ function checkAuth(req, res) {
 
 
 
-module.exports = { login, checkAuth }
+module.exports = { login, checkAuth, logout }
 
 
 
