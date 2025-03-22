@@ -91,7 +91,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
             <label htmlFor="localization" className="block text-left mt-6">Localização</label>
             <input
               type="text"
-              placeholder="Informações de saúde mental: principais queixas, histórico familiar, uso de medicamentos, etc."
+              placeholder="Localização"
               name="address"
               id="address"
               className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
