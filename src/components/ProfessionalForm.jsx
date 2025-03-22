@@ -4,9 +4,8 @@ import axios from 'axios';
 const ProfessionalForm = ({username,email,password, role, goToFirstForm, setError, error}) => {
   const [speciality, setSpeciality] = useState('');
   const [address, setAddress] = useState('');
-  const [freeService, setFreeService] = useState('');
-  const [maxAge, setMaxAge] = useState('');
-  const [minAge, setMinAge] = useState('');
+  const [freeService, setFreeService] = useState();
+  const [ageRange, setAgeRange] = useState('');
   const navigate = useNavigate();
 
   const ParseNumber = (setter) => (e) => {
@@ -18,17 +17,9 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (parseInt(minAge) > parseInt(maxAge)){
-      setError("A idade mínima não pode ser maior que a idade máxima");
-      return;
-    }
-
-
   
     if (speciality && address) {
       try{
-        // LEVI, POR FAVOR IMPLEMENTAR
         const userData = 
         {
           nome: username,
@@ -39,11 +30,13 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
           profissionalData:{
             especialidade: speciality,
             localizacao: address,
-            faixa_etaria: minAge.concat("-"+maxAge),
-            atendimentos_gratuitos: freeService, // ajeitar isso aq tbm , é pra ser bool
+            faixa_etaria: ageRange,
+            atendimentos_gratuitos: freeService,
             foto: "1", // implement form of this  
           }        
         }
+
+        console.log(userData);
 
         const user = await axios.post("http://localhost:3000/api/usuarios", userData)  
 
@@ -77,7 +70,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
 
             {error && <p className="text-red-500">{error}</p>}
             <label htmlFor="speciality" className="block text-left">Especialidade</label>
-            <input
+            <select
               type="text"
               placeholder="Insira sua especialidade"
               name="speciality"
@@ -86,10 +79,17 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               value={speciality}
               onChange={(e) => setSpeciality(e.target.value)}
               required
-            />
+          
+              >
+                <option value="">Selecione</option>
+                <option value="terapia_infantil">Terapia Infantil</option>
+                <option value="ansiedade">Ansiedade</option>
+                <option value="depressao">Depressão</option>
+                <option value="terapia_casal">Terapia de Casal</option>
+            </select>
             <br />
             <label htmlFor="localization" className="block text-left mt-6">Localização</label>
-            <input
+            <select
               type="text"
               placeholder="Localização"
               name="address"
@@ -98,42 +98,53 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
-            />
+            >
+              <option value="">Selecione</option>
+              <option value="SP">São Paulo</option>
+              <option value="RJ">Rio De Janeiro</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="BH">Bahia</option>
+              <option value="PR">Paraná</option>
+            </select>
             <br />
             <label htmlFor="ageRange" className="block text-left">Faixa etária de atendimento desejada</label>
             <div className="flex justify-between">
-              <input
-                type="number"
-                placeholder="Idade mínima"
-                name="minAge"
-                id="minAge"
-                className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-1/2 mr-2"
-                value={minAge}
-                onChange={ParseNumber(setMinAge)}
-              />
-              <input
-                type="number"
-                placeholder="Idade máxima"
-                name="maxAge"
-                id="maxAge"
-                className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-1/2 ml-2"
-                value={maxAge}
-                onChange={ParseNumber(setMaxAge)}
-              />
+              <select
+                type="text"
+                placeholder="Faixa etária"  
+                name="ageRange"
+                id="ageRange"
+                className="bg-mobile-bg italic p-2 border-2 border-solid rounded-xl shadow-md w-full mr-2"
+                value={ageRange}
+                onChange={(e) => setAgeRange(e.target.value)}
+              >
+              <option value="">Selecione</option>
+              <option value="crianca">Crianças</option>
+              <option value="adolescentes">Adolescentes</option>
+              <option value="adultos">Adultos</option>
+              <option value="idosos">Idosos</option>
+              </select>
+              
             </div>
             <br />
             <label htmlFor="freeServices" className="block text-left">Atendimentos gratuitos</label>
-            <input
+            <select
               type="number"
-              placeholder="Quantidade de atendimentos gratuitos a oferecer"
+              placeholder="Oferecer atendimentos gratuitos?"
               name="freeService"
               id="freeService"
               className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
               value={freeService}
-              onChange={ParseNumber(setFreeService)}
-            />
+              onChange={(e) => setFreeService(e.target.value === "true")}
+            >
+              <option value="">Selecione</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+              
+            </select>
             <br />
-
+    
+            
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
           </form>
         </div>
