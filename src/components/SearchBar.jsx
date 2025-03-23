@@ -60,7 +60,7 @@ const SearchBar = () => {
           <option value="">Especialidade</option>
           <option value="terapia-infantil">Terapia Infantil</option>
           <option value="ansiedade">Ansiedade</option>
-          <option value="depressao">Depressão</option>
+          <option value="depressão">Depressão</option>
           <option value="casal">Terapia de Casal</option>
         </select>
 
@@ -70,10 +70,10 @@ const SearchBar = () => {
           onChange={(e) => setAgeGroup(e.target.value)}
         >
           <option value="">Faixa Etária</option>
-          <option value="criancas">Crianças</option>
-          <option value="adolescentes">Adolescentes</option>
-          <option value="adultos">Adultos</option>
-          <option value="idosos">Idosos</option>
+          <option value="Crianças">Crianças</option>
+          <option value="Adolescentes">Adolescentes</option>
+          <option value="Adultos">Adultos</option>
+          <option value="Idosos">Idosos</option>
         </select>
 
         <button
