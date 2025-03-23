@@ -26,7 +26,7 @@ const AccountLogin = () => {
         if (error?.response?.data?.message === "Email não cadastrado") {
           setError("Email não está cadastrado")
         } else {
-          setError(error?.data?.message || error?.message)
+          setError(error?.response?.data?.message || error?.message)
         }
       }
 
