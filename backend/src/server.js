@@ -6,6 +6,7 @@ const profissionalRoutes = require("./routes/professional.routes");
 const app = express();
 const cors = require('cors');
 
+// add auth for admin /dashboard
 
 app.use(cors({
     origin: 'http://localhost:5173',

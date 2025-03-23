@@ -3,42 +3,79 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 
 
-const UserProfile = () => {
+const UserProfile = ({userId}) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  userId = parseInt(userId);
   const navigate = useNavigate();
 
 //colocar a opção de editar os dados tbm pfvvvvvv
-  useEffect(() => {
+  useEffect(() => { // open someone elses profile
     const carregarDadosUsuario = async () => {
-      
-      try {
-        const resId = await axios.get("http://localhost:3000/api/check-auth", {
-          withCredentials: true,
-          });
-
-          if (resId.data.isLoggedIn) {
-              const userId = resId.data.user.id;
-              const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
-              setUser(response.data);      
-          } else {
-              navigate('/login');
+      if (userId && Number.isInteger(userId) && userId >= 1){
+        try {
+            const res = await axios.get("http://localhost:3000/api/check-auth", {
+              withCredentials: true,
+              });
+    
+              if (res.data.isLoggedIn) {
+                  const userType = res.data.user.tipo;
+                  if (userType === "PACIENTE"){
+                    const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+                    if (response.data.tipo === "PACIENTE" || response.data.tipo === "ADMIN"){
+                      navigate('/');
+                    } else{
+                      setUser(response.data);
+                    }
+                  } else{
+                    const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+                    if (response.data.tipo === "ADMIN"){
+                      navigate('/');
+                    }
+                    else{
+                      setUser(response.data);
+                    }
+                    
+                  }
+              } 
+              else {
+                  navigate('/login');
+              }  
+          } catch (err) {
+            setError('Erro ao carregar os dados');
+          }    
+     } 
+     else{ // open my profile
+          try {
+            const resId = await axios.get("http://localhost:3000/api/check-auth", {
+              withCredentials: true,
+              });
+    
+              if (resId.data.isLoggedIn) {
+                  const userId = resId.data.user.id;
+                  const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+                  setUser(response.data);
+              } else {
+                  navigate('/login');
+              }
+    
+          
+          } catch (err) {
+            setError('Erro ao carregar os dados');
           }
-
-       
-      } catch (err) {
-        setError('Erro ao carregar os dados');
       }
     };
 
     carregarDadosUsuario();
-  });
+  }, []);
 
   if (error) {
     return <p>{error}</p>;
   }
 
+
   return (
+    
     <div className='bg-desktop-bg h-screen flex items-center justify-center'>
       {user && (
         <div className="loginContainer text-center border-1 bg-brand-white text-black rounded-2xl font-dmSans font-light shadow-2xl lg:w-full lg:max-w-md">
@@ -57,8 +94,6 @@ const UserProfile = () => {
             <p className="p-4"><span className="font-bold text-desktop-bg">Tipo:</span> {user.tipo}</p>
             <hr />
           </div>
-
-
           
           {user.tipo === 'PACIENTE' && user.Paciente && (
             <div className="mt-4">

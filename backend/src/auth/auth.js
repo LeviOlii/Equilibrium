@@ -57,7 +57,7 @@ function checkAuth(req, res) {
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const { id, tipo } = decoded;
-        return res.json({ isLoggedIn: true , user: {id}});
+        return res.json({ isLoggedIn: true , user: {id, tipo}});
 
     } catch (err) {
         return res.json({ isLoggedIn: false });
