@@ -14,7 +14,7 @@ const buscarUsuarioPorId = async (id) => {
         }
     });
 
-    if(!usuario) {
+    if (!usuario) {
         throw new Error('Usuário não encontrado');
     }
 
@@ -22,7 +22,7 @@ const buscarUsuarioPorId = async (id) => {
 }
 
 const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profissionalData }) => {
-    
+
     const usuarioExistente = await prisma.usuario.findUnique({
         where: { email },
     });
@@ -36,13 +36,13 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
         data: {
             nome,
             email,
-            senha, 
+            senha,
             tipo: tipo.toUpperCase(),
         },
     });
 
     //Se for paciente, cria registro na tabela Paciente
-    if (tipo.toUpperCase() === "PACIENTE" && pacienteData){
+    if (tipo.toUpperCase() === "PACIENTE" && pacienteData) {
         await prisma.paciente.create({
             data: {
                 usuario_id: usuario.id,
@@ -55,8 +55,8 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
             }
         });
     }
-    //Se for profissional, cria registro na tabela Profissional
-    if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData){
+    //Se for profissional, cria registro na tabela Paciente
+    if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData) {
         await prisma.profissional.create({
             data: {
                 usuario_id: usuario.id,

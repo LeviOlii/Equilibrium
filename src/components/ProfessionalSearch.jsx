@@ -119,7 +119,7 @@ const SearchProfessional = () => {
               className="p-2  border rounded w-3/5"
             >
               <option value="">Especialidade</option>
-              <option value="infantil">Terapia Infantil</option>
+              <option value="terapia-infantil">Terapia Infantil</option>
               <option value="ansiedade">Ansiedade</option>
               <option value="depressao">Depressão</option>
               <option value="casal">Terapia de Casal</option>

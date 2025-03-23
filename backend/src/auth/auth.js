@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const prisma = require("../prisma");
 const bcrypt = require('bcrypt');
 
-
+    
 const login = async (req, res) => {
     const { email, senha } = req.body;
 
@@ -65,7 +65,8 @@ function checkAuth(req, res) {
     
 }
 
-
+// /search VAI TER MIDDLEWARE 
+// poder ver o perfil do paciente se for profissional (e se o paciente tiver agendado consulta)
 
 module.exports = { login, checkAuth, logout }
 

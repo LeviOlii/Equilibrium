@@ -49,13 +49,22 @@ const Dashboard = () => {
                     </div>
 
                     {/* Painéis de informações */}
-                    <div className="p-4 w-full max-w-4xl flex flex-col items-center">
+                    <div className="flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid md:grid-rows-4 md:grid-flow-col gap-4 gap-x-[60px] justify-start">
                         {activePanel === "usuarios" && (
-                            <div className="w-full bg-white rounded-lg p-4 shadow-md">
-                                <h2 className="text-lg font-bold">Detalhes dos Usuários</h2>
-                                <p>Total: 4500 usuários cadastrados.</p>
-                                <p>Ativos no último mês: 3200.</p>
-                            </div>
+                            <>
+                          <div className="h-[127px] w-[360px] bg-white rounded-lg p-4 ml-1 flex justify-between items-start">
+                                <div>
+                                    <h2 className="text-xl font-semibold text-gray-800">Ricardo</h2>
+                                    <p className="text-gray-600">email@gmail.com</p>
+                                    <p className="text-gray-600">Paciente</p>
+                                    <p className="text-gray-600">Id: 42</p>
+                                </div>
+                                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                    Ver perfil
+                                </button>
+                          </div>
+                          
+                           </>
                         )}
                         {activePanel === "atendimentos" && (
                             <div className="w-full bg-white rounded-lg p-4 shadow-md">

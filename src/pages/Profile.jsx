@@ -1,10 +1,12 @@
 import UserProfile from "../components/UserProfile";
+import Header from "../components/Header";
 
 const Profile = () => {
     
     return (
         <>
-            <UserProfile/>
+            <Header renderButtons={false}/>
+            <UserProfile />
         </>
     );
 

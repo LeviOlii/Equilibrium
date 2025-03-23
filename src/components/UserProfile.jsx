@@ -11,6 +11,7 @@ const UserProfile = () => {
 //colocar a opção de editar os dados tbm pfvvvvvv
   useEffect(() => {
     const carregarDadosUsuario = async () => {
+      
       try {
         const resId = await axios.get("http://localhost:3000/api/check-auth", {
           withCredentials: true,
