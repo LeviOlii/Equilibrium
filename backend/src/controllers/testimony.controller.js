@@ -1,39 +1,36 @@
-const Testimony = require("../models/Testimony");
-const Usuario = require("../models/Usuario");
+const prisma = require('../prisma');
 
-// Listar depoimentos com nome do usuário
-exports.listarTestimonies = async (req, res) => {
-    try {
-        const testimonies = await Testimony.findAll({
-            include: {
-                model: Usuario,
-                attributes: ["nome"], // Busca apenas o nome do usuário
-            },
-        });
-
-        // Ajusta os depoimentos para incluir o nome corretamente
-        const response = testimonies.map(t => ({
-            id: t.id,
-            name: t.Usuario.nome, // Nome do usuário associado
-            role: t.role,
-            testimony: t.testimony,
-        }));
-
-        res.json(response);
-    } catch (error) {
-        res.status(500).json({ error: "Erro ao buscar depoimentos" });
-    }
+const listarTestimonies = async (req, res) => {
+  try {
+    const testimonies = await prisma.testimony.findMany();
+    res.status(200).json(testimonies);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar depoimentos' });
+  }
 };
 
-// Criar depoimento associado a um usuário
-exports.criarTestimony = async (req, res) => {
-    try {
-        const { usuario_id, role, testimony } = req.body;
-        if (!testimony) return res.status(400).json({ error: "O depoimento é obrigatório" });
+const criarTestimony = async (req, res) => {
+  const { name, role, testimony } = req.body;
 
-        const newTestimony = await Testimony.create({ usuario_id, role, testimony });
-        res.status(201).json(newTestimony);
-    } catch (error) {
-        res.status(500).json({ error: "Erro ao criar depoimento" });
-    }
+  if (!testimony) {
+    return res.status(400).json({ error: 'Depoimento é obrigatório' });
+  }
+
+  try {
+    const newTestimony = await prisma.testimony.create({
+      data: {
+        name,
+        role,
+        testimony,
+      },
+    });
+    res.status(201).json(newTestimony);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao criar depoimento' });
+  }
 };
+
+module.exports = { listarTestimonies, criarTestimony };
+
