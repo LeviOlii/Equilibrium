@@ -14,4 +14,18 @@ const getAllProfissionais = async () => {
   }
 };
 
-module.exports = { getAllProfissionais };
+const getProfissionalById = async (id) => {
+  try {
+    return await prisma.profissional.findUnique({
+      where: { id: parseInt(id) }, // Importante fazer parseInt pra garantir número
+      include: {
+        usuario: true, // Inclui o usuário relacionado
+      },
+    });
+  } catch (error) {
+    throw new Error(`Erro ao buscar profissional: ${error.message}`);
+  }
+};
+
+
+module.exports = { getAllProfissionais, getProfissionalById };
