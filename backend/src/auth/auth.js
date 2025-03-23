@@ -11,7 +11,7 @@ const login = async (req, res) => {
     });
 
     if (!usuario) {
-        return res.status(404).json({"message":"Email não cadastrado"});
+        return res.status(404).json({"message":"Dados inválidos"});
     }
     
     const success = await bcrypt.compare(senha, usuario.senha);
@@ -35,7 +35,7 @@ const login = async (req, res) => {
     }
 
     else {
-        return res.status(400).json({ message: "Dados invállidos" })
+        return res.status(404).json({ message: "Dados inválidos" })
     }
 }
 
@@ -64,9 +64,6 @@ function checkAuth(req, res) {
     }
     
 }
-
-// /search VAI TER MIDDLEWARE 
-// poder ver o perfil do paciente se for profissional (e se o paciente tiver agendado consulta)
 
 module.exports = { login, checkAuth, logout }
 

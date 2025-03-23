@@ -23,11 +23,7 @@ const AccountLogin = () => {
         navigate('/');
 
       } catch (error) {
-        if (error?.response?.data?.message === "Email não cadastrado") {
-          setError("Email não está cadastrado")
-        } else {
-          setError(error?.response?.data?.message || error?.message)
-        }
+        setError(error?.response?.data?.message || error?.message)
       }
 
     } else {
