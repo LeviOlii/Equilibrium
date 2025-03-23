@@ -8,7 +8,6 @@ import Dashboard from "./components/Dashboard.jsx";
 import SingUp from "./components/SignUp.jsx";
 //import Anamnesis from "./components/Anamnesis.jsx";
 //import ProfessionalForm from "./components/ProfessionalForm.jsx";
-
 import Profile from "./pages/Profile.jsx";
 import ProfessionalForm from "./components/ProfessionalForm.jsx";
 import ProfessinalSearch from "./components/ProfessionalSearch.jsx";

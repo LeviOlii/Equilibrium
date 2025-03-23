@@ -50,12 +50,12 @@ const Header = ({renderButtons = true}) => {
 
     return (
         <header className="bg-desktop-bg text-white p-6 font-dmSans tracking-wide">
-            <div className="container mx-auto flex justify-between items-center">
+            <div className="container mx-auto flex justify-between items-center h-11">
                 <Link to="/">
                 <h1 className="text-2xl text-white">Equili<span className="font-bold">brium</span></h1>
                 </Link> 
                 {renderButtons && (
-                <nav className="hidden md:flex md:space-x-6 md:ml-28">
+                <nav className="hidden md:flex md:space-x-6 md:ml-32">
                     <button onClick={() => scrollToSection("inicio")} className="hover:underline">
                         Início
                     </button>
@@ -72,7 +72,7 @@ const Header = ({renderButtons = true}) => {
                 
 
                 {!isLogged && ( 
-                <div className="hidden md:flex md:space-x-4">
+                <div className="hidden md:flex md:space-x-4 pl-20">
                     <Link to="/login">
                         <button className="border-2 border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition">
                             Login
@@ -88,7 +88,7 @@ const Header = ({renderButtons = true}) => {
                 {isLogged 
                 && ( 
                     
-                <div className="hidden md:flex md:space-x-4">
+                <div className="hidden md:flex md:space-x-4 pl-32">
                     
                     <Link to="/profile">
                         <div className="user_icon w-20 h-11 mx-auto mb-1">

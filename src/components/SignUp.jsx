@@ -55,8 +55,8 @@ const SignUp = () => {
             <input
               type="text"
               placeholder="Insira seu nome"
-              name="email"
-              id="email"
+              name="nome"
+              id="nome"
               className="bg-mobile-bg italic my-6 p-1 border-2 border-solid rounded-xl shadow-md px-14 text-center"
               value={username}
               onChange={(e) => setUsername(e.target.value)}

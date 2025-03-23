@@ -8,6 +8,10 @@ const listarUsuarios = async () => {
 const buscarUsuarioPorId = async (id) => {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
+        include: { //agr inclui os dados de paciente/profissional
+            Paciente: true,
+            Profissional: true,
+        }
     });
 
     if(!usuario) {
@@ -51,7 +55,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
             }
         });
     }
-    //Se for profissional, cria registro na tabela Paciente
+    //Se for profissional, cria registro na tabela Profissional
     if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData){
         await prisma.profissional.create({
             data: {
