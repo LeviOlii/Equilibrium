@@ -86,7 +86,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
                 <option value="">Selecione</option>
                 <option value="terapia-infantil">Terapia Infantil</option>
                 <option value="ansiedade">Ansiedade</option>
-                <option value="depressao">Depressão</option>
+                <option value="depressão">Depressão</option>
                 <option value="casal">Terapia de Casal</option>
             </select>
             <br />
@@ -102,11 +102,11 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               required
             >
               <option value="">Selecione</option>
-              <option value="São Paulo">São Paulo</option>
-              <option value="Rio De Janeiro">Rio De Janeiro</option>
-              <option value="Minas Gerais">Minas Gerais</option>
-              <option value="Bahia">Bahia</option>
-              <option value="Paraná">Paraná</option>
+              <option value="Fortaleza">Fortaleza</option>
+              <option value="Quixadá">Quixadá</option>
+              <option value="Caucaia">Caucaia</option>
+              <option value="Eusébio">Eusébio</option>
+              <option value="Maracanaú">Maracanaú</option>
             </select>
             <br />
             <label htmlFor="ageRange" className="block text-left">Faixa etária de atendimento desejada</label>
@@ -121,10 +121,10 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
                 onChange={(e) => setAgeRange(e.target.value)}
               >
               <option value="">Selecione</option>
-              <option value="crianca">Crianças</option>
-              <option value="adolescentes">Adolescentes</option>
-              <option value="adultos">Adultos</option>
-              <option value="idosos">Idosos</option>
+              <option value="Crianças">Crianças</option>
+              <option value="Adolescentes">Adolescentes</option>
+              <option value="Adultos">Adultos</option>
+              <option value="Idosos">Idosos</option>
               </select>
               
             </div>
