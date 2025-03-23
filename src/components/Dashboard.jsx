@@ -49,7 +49,8 @@ const Dashboard = () => {
                     </div>
 
                     {/* Painéis de informações */}
-                    <div className="flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid md:grid-rows-4 md:grid-flow-col gap-4 gap-x-[60px] justify-start">
+                    <div className={activePanel === "usuarios" ? "flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid md:grid-rows-4 md:grid-flow-col gap-4 gap-x-[60px] justify-start" : "p-4 w-full max-w-4xl flex flex-col items-center"}>
+                        
                         {activePanel === "usuarios" && (
                             <>
                           <div className="h-[127px] w-[360px] bg-white rounded-lg p-4 ml-1 flex justify-between items-start">
