@@ -43,6 +43,8 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
 
       } catch(error){
 
+
+        console.log(error);
         if (error?.response?.status === 409){
           console.log(error.response.status)
           setError("Email ja está cadastrado")

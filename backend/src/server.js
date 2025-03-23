@@ -22,6 +22,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", userRoutes);
 app.use("/api", profissionalRoutes);
+app.use("/uploads", express.static("uploads"));
+
 
 
 const PORT = process.env.PORT || 3000;
