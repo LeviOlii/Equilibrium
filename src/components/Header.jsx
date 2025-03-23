@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react"; 
 import axios from "axios";
-import { checkAuthAndRedirect } from "../../backend/src/auth/authUtil";
+//import { checkAuthAndRedirect } from "../../backend/src/auth/authUtil"; tava dando erro n sei pq
 
 const Header = ({renderButtons = true}) => {
     const [menuOpen, setMenuOpen] = useState(false);

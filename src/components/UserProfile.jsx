@@ -87,9 +87,15 @@ const UserProfile = ({userId}) => {
 
           <div>
             <hr />
-            <p className="p-4"><span className="font-bold text-desktop-bg">Nome:</span> {user.nome}</p>
+            <p className="p-4"><span className="font-bold text-desktop-bg">Nome:</span> {user.nome}
+            <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+            </p>
+
             <hr />
-            <p className="p-4"><span className="font-bold text-desktop-bg">Email:</span> {user.email}</p>
+            <p className="p-4"><span className="font-bold text-desktop-bg">Email:</span> {user.email}
+            <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+            </p>
+            
             <hr />
             <p className="p-4"><span className="font-bold text-desktop-bg">Tipo:</span> {user.tipo}</p>
             <hr />
@@ -98,17 +104,34 @@ const UserProfile = ({userId}) => {
           {user.tipo === 'PACIENTE' && user.Paciente && (
             <div className="mt-4">
               <h2 className=" font-bold">Dados de Paciente</h2>
-              <p className="p-4"><span className="font-bold text-desktop-bg">Idade:</span> {user.Paciente.idade}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Idade:</span>{user.Paciente.idade}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Gênero:</span> {user.Paciente.genero}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Gênero:</span> {user.Paciente.genero}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Queixas:</span> {user.Paciente.queixas}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Queixas:</span> {user.Paciente.queixas}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Histórico Familiar:</span> {user.Paciente.historico_familiar}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Histórico Familiar:</span> {user.Paciente.historico_familiar}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Uso de Medicamentos:</span> {user.Paciente.uso_medicamentos}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Uso de Medicamentos:</span> {user.Paciente.uso_medicamentos}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+              
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Objetivo Terapia:</span> {user.Paciente.objetivo_terapia}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Objetivo Terapia:</span> {user.Paciente.objetivo_terapia}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
             </div>
           )}
 
@@ -117,13 +140,26 @@ const UserProfile = ({userId}) => {
             <div className="mt-4">
               <h2 className="font-bold" >Dados de Profissional</h2>
               {user.Profissional.foto && <img src={user.Profissional.foto} alt="Foto do profissional" className="mt-4 w-32 h-32 rounded-full mx-auto" />}
-              <p className="p-4"><span className="font-bold text-desktop-bg">Especialidade:</span> {user.Profissional.especialidade}</p>
+              <button className="h-5 w-5 my-4"><img src="src/assets/icons/editimage.svg" alt="editar_imagem" /></button>
+
+              <p className="p-4"><span className="font-bold text-desktop-bg">Especialidade:</span> {user.Profissional.especialidade}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+              
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Localização:</span> {user.Profissional.localizacao}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Localização:</span> {user.Profissional.localizacao}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Faixa Etária de Atendimento:</span> {user.Profissional.faixa_etaria}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Faixa Etária de Atendimento:</span> {user.Profissional.faixa_etaria}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
+              
               <hr />
-              <p className="p-4"><span className="font-bold text-desktop-bg">Atendimentos Gratuitos:</span> {user.Profissional.atendimentos_gratuitos ? 'Sim' : 'Não'}</p>
+              <p className="p-4"><span className="font-bold text-desktop-bg">Atendimentos Gratuitos:</span> {user.Profissional.atendimentos_gratuitos ? 'Sim' : 'Não'}
+              <button className="h-5 w-5 m-2 py-0.5"><img src="src/assets/icons/edit.svg" alt="editar" /></button>
+              </p>
             </div>
           )}
 
