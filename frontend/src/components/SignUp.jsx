@@ -47,7 +47,7 @@ const SignUp = () => {
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastre-se!</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src/assets/icons/signUp.png" alt="SignUp_icon" />
+              <img src="https://cdn-icons-png.flaticon.com/128/684/684831.png" alt="SignUp_icon" />
             </div>
 
             {error && <p className="text-red-500">{error}</p>}

@@ -63,8 +63,8 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
           <form className="mx-10 my-36" onSubmit={(e) => handleRegister(e)}>
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Cadastro do paciente</h1>
 
-            <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src/assets/icons/signUp.png" alt="signup_icon" />
+            <div className="user_icon w-16 h-12 mx-auto my-5">
+              <img src="https://www.svgrepo.com/show/522697/user-round.svg" alt="signup_icon" />
             </div>
 
             {error && <p className="text-red-500">{error}</p>}
