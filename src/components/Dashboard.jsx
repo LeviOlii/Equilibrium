@@ -2,28 +2,82 @@ import { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Dashboard = () => {
     const [activePanel, setActivePanel] = useState(null);
     const [users, setUsers] = useState(null);
+    const [start, setStart] = useState(0);
+    const [end, setEnd] = useState(16);
+    const navigate = useNavigate();
+
 
     const handleCardClick = (panel) => {
         setActivePanel(panel === activePanel ? null : panel);
     };
 
     useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const res = await axios.get("http://localhost:3000/api/check-auth", {
+                    withCredentials: true,
+                });
+    
+                if (!res.data.isLoggedIn) {
+                    navigate("/");
+                    return;
+                }
+
+                console.log(res.data.user.tipo);
+    
+                if (res.data.user.tipo !== "ADMIN") {
+                    navigate("/");
+                    return;
+                }
+            } catch (error) {
+                navigate("/");
+            }
+        };
+    
+        checkAuth();
+    }, []);
+    
+        
+    const handleClick = async (direction) => {
+
+        if (direction == 'left'){
+            if (start == 0){
+                setStart(0);
+                setEnd(16);
+            } else{
+                setStart(start - 16);
+                setEnd(end - 16);
+            }
+        } else{
+            if (users.length > 32){
+                setStart(start+16);
+                setEnd(end+16);
+            } else{
+                setStart(start+16);
+                setEnd(users.length-start+16);
+            }
+            
+        }
+    }
+
+    useEffect(() => {
         axios
-          .get("http://localhost:3000/api/usuarios")
-          .then((response) => {
-            let users = response.data;
-                
-            setUsers(users);
-          })
-          .catch((error) => {
-            console.error("Erro ao buscar usuários:", error);
-          });
-      }, []);
+            .get("http://localhost:3000/api/usuarios")
+            .then((response) => {
+                let users = response.data;
+
+                setUsers(users);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar usuários:", error);
+            });
+    }, []);
 
     const accessData = [
         { name: "Seg", acessos: 120 },
@@ -36,7 +90,7 @@ const Dashboard = () => {
     ];
 
     return (
-        <>  
+        <>
             <Header />
             <div className="bg-desktop-bg font-dmSans min-h-screen">
                 <h1 className="text-center p-4 text-3xl text-white">Painel do Administrador</h1>
@@ -65,34 +119,46 @@ const Dashboard = () => {
                     </div>
 
                     {/* Painéis de informações */}
-                    <div className={activePanel === "usuarios" ? "flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid md:grid-rows-4 md:grid-flow-col gap-4 gap-x-[60px] justify-start" : "p-4 w-full max-w-4xl flex flex-col items-center"}>
+                    <div className={activePanel === "usuarios" ?
+                        "flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid  md:grid-rows-4 md:grid-cols-4 gap-4 gap-x-[60px] justify-start" :
+                        // ISSO AQ DEBAIXO É PRA CELULAR
+                        "p-4 w-full max-w-4xl flex flex-col items-center"}>
 
                         {activePanel === "usuarios" && (
-                          <>
-                          {users.length === 0 ? 
-                          (
-                            <p>Ninguem pra mostrar</p>
-                          ) 
-                          : 
-                          (
-                            users.map((user) => (
-                            <div className="h-[127px] w-[360px] bg-white rounded-lg p-4 ml-1 flex justify-between items-start">
-                                <div>
-                                    <h2 className="text-xl font-semibold text-gray-800">{user.nome}</h2>
-                                    <p className="text-gray-600">{(user.email).slice(0,24)}</p>
-                                    <p className="text-gray-600">{user.tipo}</p>
-                                    <p className="text-gray-600">Id: {user.id}</p>
-                                </div>
-                                <Link to={`/profile/${user.id}`}>
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                                    Ver perfil
+                            <>
+                                {users.length === 0 ?
+                                    (
+                                        <p>Ninguem pra mostrar</p>
+                                    )
+                                    :
+                                    (
+                                        users.slice(start, end).map((user) => (
+                                            <div className="h-[127px] w-[360px] bg-white rounded-lg p-4 ml-1 flex justify-between items-start">
+                                                <div>
+                                                    <h2 className="text-xl font-semibold text-gray-800">{user.nome}</h2>
+                                                    <p className="text-gray-600">{(user.email).slice(0, 24)}</p>
+                                                    <p className="text-gray-600">{user.tipo}</p>
+                                                    <p className="text-gray-600">Id: {user.id}</p>
+                                                </div>
+                                                <Link to={`/profile/${user.id}`}>
+                                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                                        Ver perfil
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        ))
+                                        
+                                    )};
+
+                             <div className="flex justify-center items-center gap-4 -mt-[3%] col-span-full mr-[35%] md:mr-0">
+                                <button className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-2 px-4 rounded" onClick={()=>handleClick('left')}>
+                                    &lt;
                                 </button>
-                                </Link>
-                          </div>  
-                            ))
-                          )};  
-                          
-                        </>
+                                <button className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-2 px-4 rounded" onClick={()=>handleClick('right')}>
+                                    &gt;
+                                </button>
+                            </div>
+                         </>
                         )}
                         {activePanel === "atendimentos" && (
                             <div className="w-full bg-white rounded-lg p-4 shadow-md">
