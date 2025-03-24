@@ -46,6 +46,8 @@ const Dashboard = () => {
         
     const handleClick = async (direction) => {
 
+        console.log(start,end);
+        
         if (direction == 'left'){
             if (start == 0){
                 setStart(0);
@@ -55,15 +57,16 @@ const Dashboard = () => {
                 setEnd(end - 16);
             }
         } else{
-            if (users.length > 32){
-                setStart(start+16);
-                setEnd(end+16);
+            if (start + 16 > users.length){
+                setEnd(users.length); 
             } else{
                 setStart(start+16);
-                setEnd(users.length-start+16);
+                setEnd(end+16);
             }
             
         }
+        
+        
     }
 
     useEffect(() => {
