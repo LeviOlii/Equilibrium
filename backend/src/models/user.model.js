@@ -8,6 +8,10 @@ const listarUsuarios = async () => {
 const buscarUsuarioPorId = async (id) => {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
+        include: {
+            Paciente: true,
+            Profissional: true,
+        },
     });
 
     if(!usuario) {
