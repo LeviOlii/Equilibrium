@@ -1,7 +1,6 @@
 const { getAllProfissionais, getProfissionalById } = require("../models/professional.model");
 
-// Controller para buscar todos os profissionais
-export default async function getProfissionais (req, res){
+const getProfissionais = async (req, res) => {
   try {
     const profissionais = await getAllProfissionais();
     res.json(profissionais);
@@ -11,7 +10,7 @@ export default async function getProfissionais (req, res){
   }
 };
 
-export default async function getProfissional (req, res){
+const getProfissional = async (req, res) => {
   const { id } = req.params;
   try {
     const profissional = await getProfissionalById(id);
@@ -24,3 +23,5 @@ export default async function getProfissional (req, res){
     res.status(500).json({ message: `Erro ao buscar profissional`, error: error.message });
   }
 };
+
+module.exports = { getProfissionais, getProfissional };
