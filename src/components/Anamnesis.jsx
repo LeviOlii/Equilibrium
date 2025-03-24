@@ -141,8 +141,8 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
               <option value="">Selecione</option>
               <option value="masculino">Masculino</option>
               <option value="feminino">Feminino</option>
-              <option value="nao-binario">Não binário</option>
-              <option value="nulo">Prefiro não dizer</option>
+              <option value="não binario">Não binário</option>
+              <option value="não informado">Prefiro não dizer</option>
             </select>
             <br />
 
