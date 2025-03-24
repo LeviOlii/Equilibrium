@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoUsuario {
+  PACIENTE
+  PROFISSIONAL
+  ADMIN
+}
+
+model Depoimento{
+  id            Int @id @default(autoincrement())
+  descricao     String
+  data          DateTime @default(now())
+}
+
+model GrupodeApoio {
+  id            Int    @id @default(autoincrement())
+  nome          String
+  descricao     String
+  regiao        String
+}
+
+model Usuario {
+  id        Int    @id @default(autoincrement())
+  nome      String
+  email     String @unique
+  senha     String
+  tipo      TipoUsuario
+
+  Paciente          Paciente?
+  Profissional      Profissional?
+}
+
+
+model Paciente {
+  id                    Int     @id @default(autoincrement())
+  usuario               Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  usuario_id            Int    @unique
+  idade                 Int
+  genero                String
+  queixas               String
+  historico_familiar    String
+  uso_medicamentos      String
+  objetivo_terapia      String
+
+  evolucaoclinica       EvolucaoClinica[]
+  sessoes               SessaoAtendimento[]
+}
+
+model Profissional {
+  id                        Int     @id @default(autoincrement())
+  usuario                   Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  usuario_id                Int     @unique
+  especialidade             String
+  localizacao               String
+  faixa_etaria              String
+  atendimentos_gratuitos    Boolean
+  foto                      String?
+
+  sessoes                   SessaoAtendimento[]
+  evolucaoclinica           EvolucaoClinica[]
+}
+
+model SessaoAtendimento {
+  id                  Int        @id @default(autoincrement())
+  paciente            Paciente   @relation(fields: [paciente_id], references: [id], onDelete: Cascade)
+  paciente_id         Int
+  profissional        Profissional @relation(fields: [profissional_id], references: [id], onDelete: Cascade)
+  profissional_id     Int
+  data                DateTime
+  status              String
+  avaliacao           String?
+}
+
+model EvolucaoClinica {
+  id                      Int      @id @default(autoincrement())
+  pacienteId              Int
+  profissionalId          Int
+  data                    DateTime @default(now())
+  relatoAtendimento       String
+  ajustesNoTratamento     String
+
+  paciente                Paciente  @relation(fields: [pacienteId], references: [id])
+  profissional            Profissional @relation(fields: [profissionalId], references: [id])
+}
