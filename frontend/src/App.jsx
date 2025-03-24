@@ -8,6 +8,7 @@ import SignUp from "./components/SignUp.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProfessionalForm from "./components/ProfessionalForm.jsx";
 import ProfessionalSearch from "./components/ProfessionalSearch.jsx";
+import Testimony from "./pages/Testimony.jsx";
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/search" element={<ProfessionalSearch />} />
+        <Route path="/testimony" element={<Testimony />} />
+
       </Routes>
     </Router>
   );
