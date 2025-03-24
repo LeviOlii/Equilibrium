@@ -10,8 +10,6 @@ const cors = require('cors');
 
 // add editable option /profile -> isso daq depende da duda la 
 
-// add delete and edit buttons for profile if currentUser is admin
-
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
