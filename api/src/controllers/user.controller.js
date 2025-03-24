@@ -23,26 +23,26 @@ const buscarUsuarioPorId = async (req, res) => {
 
 const criarUsuario = async (req, res) => {
     try {
-       const { nome, email, senha, tipo, Paciente, Profissional } = req.body;
+       const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
        console.log("Dados recebidos:", req.body);
         
        if (
         tipo.toUpperCase() === "PACIENTE" &&
-        (!nome || !email || !senha || !Paciente || 
-        !Paciente.idade || !Paciente.genero || !Paciente.queixas || 
-        !Paciente.historico_familiar || !Paciente.uso_medicamentos || !Paciente.objetivo_terapia)
+        (!nome || !email || !senha || !pacienteData || 
+        !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || 
+        !pacienteData.historico_familiar || !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia)
     ) {
-        return res.status(400).json({ error: "Dados incompletos para cadastro de paciente." });
+        return res.status(400).json({ error: "Dados incompletos para cadastro de pacienteData." });
     }
     
     if (
-        tipo.toUpperCase() === "PROFISSIONAL" &&
-        (!nome || !email || !senha || !Profissional ||
-        !Profissional.especialidade || !Profissional.localizacao || 
-        !Profissional.faixa_etaria || (Profissional.atendimentos_gratuitos === undefined || Profissional.atendimentos_gratuitos === null)
-        || !Profissional.foto)
+        tipo.toUpperCase() === "PROFISISONAL" &&
+        (!nome || !email || !senha || !profissionalData ||
+        !profissionalData.especialidade || !profissionalData.localizacao || 
+        !profissionalData.faixa_etaria || (profissionalData.atendimentos_gratuitos === undefined || profissionalData.atendimentos_gratuitos === null)
+        || !profissionalData.foto)
     ) {
-        return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
+        return res.status(400).json({ error: "Dados incompletos para cadastro de profissionalData." });
     }
     
        const hashed_senha = await bcrypt.hash(senha, 14);
@@ -52,8 +52,8 @@ const criarUsuario = async (req, res) => {
         email,
         senha: hashed_senha,  
         tipo,
-        Paciente: tipo.toUpperCase() === "PACIENTE" ? Paciente : null,
-        Profissional: tipo.toUpperCase() === "PROFISSIONAL" ? Profissional : null,
+        pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null,
+        profissionalData: tipo.toUpperCase() === "PROFISISONAL" ? profissionalData : null,
        });
 
        if (novoUsuario) {
@@ -81,20 +81,20 @@ const criarUsuario = async (req, res) => {
 const atualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nome, email, senha, tipo, Paciente, Profissional } = req.body;
+        const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
         console.log("Dados recebidos:", req.body);
 
         if (tipo?.toUpperCase() === "PACIENTE") {
-            if (!Paciente || !Paciente.idade || !Paciente.genero || !Paciente.queixas || !Paciente.historico_familiar || 
-                !Paciente.uso_medicamentos || !Paciente.objetivo_terapia) {
-                return res.status(400).json({ error: "Dados incompletos para atualizar paciente." });
+            if (!pacienteData || !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || !pacienteData.historico_familiar || 
+                !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia) {
+                return res.status(400).json({ error: "Dados incompletos para atualizar pacienteData." });
             }
         } 
 
-        if (tipo?.toUpperCase() === "PROFISSIONAL") {
-            if (!Profissional || !Profissional.especialidade || !Profissional.localizacao || 
-                !Profissional.faixa_etaria || !Profissional.atendimentos_gratuitos) {
-                return res.status(400).json({ error: "Dados incompletos para atualizar profissional." });
+        if (tipo?.toUpperCase() === "PROFISISONAL") {
+            if (!profissionalData || !profissionalData.especialidade || !profissionalData.localizacao || 
+                !profissionalData.faixa_etaria || !profissionalData.atendimentos_gratuitos) {
+                return res.status(400).json({ error: "Dados incompletos para atualizar profissionalData." });
             }
         }
 
@@ -105,8 +105,8 @@ const atualizarUsuario = async (req, res) => {
             email,
             senha: hashed_senha,
             tipo,
-            Paciente,
-            Profissional,
+            pacienteData,
+            profissionalData,
         });
 
         res.json(usuarioAtualizado);
