@@ -16,6 +16,7 @@ datasource db {
 enum TipoUsuario {
   PACIENTE
   PROFISSIONAL
+  ADMIN
 }
 
 model Depoimento{
