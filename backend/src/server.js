@@ -6,7 +6,11 @@ const profissionalRoutes = require("./routes/professional.routes");
 const app = express();
 const cors = require('cors');
 
-// add auth for admin /dashboard
+// create forbidden page
+
+// add editable option /profile -> isso daq depende da duda la 
+
+// add delete and edit buttons for profile if currentUser is admin
 
 app.use(cors({
     origin: 'http://localhost:5173',
