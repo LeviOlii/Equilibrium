@@ -10,9 +10,13 @@ const login = async (req, res) => {
         where: { email },
     });
 
+    console.log(usuario);
+
     if (!usuario) {
         return res.status(404).json({"message":"Dados inválidos"});
     }
+    
+    console.log("passou daq");
     
     const success = await bcrypt.compare(senha, usuario.senha);
 

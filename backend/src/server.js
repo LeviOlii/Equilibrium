@@ -1,12 +1,8 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import testimonyRoutes from "./routes/testimonyRoutes.js";
-import userRoutes from "./routes/user.routes";
-import professionalRoutes from "./routes/professional.routes";
-
-dotenv.config();
+const express = require('express');
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const userRoutes = require('./routes/user.routes');
+const professionalRoutes = require("./routes/professional.routes");
 
 const app = express();
 
@@ -18,7 +14,6 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api/testimonies", testimonyRoutes);
 app.use("/api", userRoutes);
 app.use("/api", professionalRoutes);
 
