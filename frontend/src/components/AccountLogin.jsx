@@ -39,7 +39,7 @@ const AccountLogin = () => {
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Seja bem-vindo(a)!</h1>
 
             <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src\assets\icons\user.png" alt="user_icon" />
+              <img src="https://www.svgrepo.com/show/522697/user-round.svg" alt="user_icon" />
             </div>
 
             {error && <p className="text-red-500">{error}</p>}

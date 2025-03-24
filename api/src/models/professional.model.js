@@ -1,12 +1,10 @@
-const { PrismaClient } = require("@prisma/client"); 
-const prisma = new PrismaClient();
+const prisma = require("../prisma");
 
-// Função para buscar todos os profissionais
 const getAllProfissionais = async () => {
   try {
     return await prisma.profissional.findMany({
       include: {
-        usuario: true, // Inclui os dados do usuário relacionado
+        usuario: true,
       },
     });
   } catch (error) {
@@ -17,15 +15,14 @@ const getAllProfissionais = async () => {
 const getProfissionalById = async (id) => {
   try {
     return await prisma.profissional.findUnique({
-      where: { id: parseInt(id) }, // Importante fazer parseInt pra garantir número
+      where: { id: parseInt(id) },
       include: {
-        usuario: true, // Inclui o usuário relacionado
+        usuario: true,
       },
     });
   } catch (error) {
     throw new Error(`Erro ao buscar profissional: ${error.message}`);
   }
 };
-
 
 module.exports = { getAllProfissionais, getProfissionalById };
