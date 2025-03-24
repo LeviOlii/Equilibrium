@@ -84,10 +84,10 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
           
               >
                 <option value="">Selecione</option>
-                <option value="terapia-infantil">Terapia Infantil</option>
-                <option value="ansiedade">Ansiedade</option>
-                <option value="depressão">Depressão</option>
-                <option value="casal">Terapia de Casal</option>
+                <option value="Terapia-infantil">Terapia Infantil</option>
+                <option value="Ansiedade">Ansiedade</option>
+                <option value="Depressão">Depressão</option>
+                <option value="Casal">Terapia de Casal</option>
             </select>
             <br />
             <label htmlFor="localization" className="block text-left mt-6">Localização</label>

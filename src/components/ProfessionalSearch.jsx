@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
+import { useLocation } from "react-router-dom";
 
 const SearchProfessional = () => {
   const [specialty, setSpecialty] = useState("");
@@ -8,8 +9,9 @@ const SearchProfessional = () => {
   const [groupAge, setGroupAge] = useState("");
   const [filteredProfessionals, setFilteredProfessionals] = useState([]);
   const [visibleCount, setVisibleCount] = useState(5);
+  const location = useLocation();
 
-  // Função para normalizar strings (essa aqui creio q ta ok)
+  // Função para normalizar strings (remove acentos e coloca em minúsculas)
   const normalizeString = (str) => {
     return str
       ? str
@@ -19,15 +21,15 @@ const SearchProfessional = () => {
       : "";
   };
 
-  // reordenação (ver ainda isso aqui, se ta tudo ok)
+  // Reordenação aleatória da lista de profissionais
   const shuffleArray = (array) => {
     return array
-      .map((a) => ({ sort: Math.random(), value: a })) // Cria um objeto com um valor aleatório
-      .sort((a, b) => a.sort - b.sort) // Ordena com base no valor aleatório
-      .map((a) => a.value); // Retorna o array embaralhado
+      .map((a) => ({ sort: Math.random(), value: a }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value);
   };
 
-  // Filtro com base nas seleções
+  // Função para buscar profissionais aplicando os filtros
   const filterProfessionals = () => {
     axios
       .get("http://localhost:3000/api/profissionais")
@@ -36,64 +38,59 @@ const SearchProfessional = () => {
 
         // Aplica os filtros se os parâmetros estiverem definidos
         if (region) {
-          filtered = filtered.filter((prof) =>
-            normalizeString(prof.localizacao) === normalizeString(region)
+          filtered = filtered.filter(
+            (prof) => normalizeString(prof.localizacao) === normalizeString(region)
           );
         }
 
         if (specialty) {
-          filtered = filtered.filter((prof) =>
-            normalizeString(prof.especialidade) === normalizeString(specialty)
+          filtered = filtered.filter(
+            (prof) => normalizeString(prof.especialidade) === normalizeString(specialty)
           );
         }
 
         if (groupAge) {
-          filtered = filtered.filter((prof) =>
-            normalizeString(prof.faixa_etaria) === normalizeString(groupAge)
+          filtered = filtered.filter(
+            (prof) => normalizeString(prof.faixa_etaria) === normalizeString(groupAge)
           );
         }
 
-        // Embaralha a lista de profissionais
+        // Embaralha a lista de profissionais filtrados
         filtered = shuffleArray(filtered);
 
-        // Atualiza o estado dos profissionais filtrados
+        // Atualiza o estado
         setFilteredProfessionals(filtered);
-        setVisibleCount(5); //reseta pra cinco depois que voce faz um Buscar
+        setVisibleCount(5); // Reseta para 5 após a busca
       })
       .catch((error) => {
         console.error("Erro ao buscar profissionais:", error);
       });
   };
+
+  // Captura os parâmetros da URL e define os filtros
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setRegion(params.get("region") || "");
+    setSpecialty(params.get("specialty") || "");
+    setGroupAge(params.get("ageGroup") || "");
+  }, [location.search]); // Esse useEffect é responsável por atualizar os filtros com base nos parâmetros da URL
 
   // Função para carregar mais profissionais
   const loadMore = () => {
-    setVisibleCount(visibleCount + 3); // Carregar mais 3 profissionais
+    setVisibleCount(visibleCount + 3);
   };
 
-  // UseEffect para buscar profissionais aleatórios ao carregar a página
+  // Função para carregar os profissionais com base nos filtros
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/profissionais")
-      .then((response) => {
-        let professionals = response.data;
-
-        // Embaralha a lista de profissionais
-        professionals = shuffleArray(professionals);
-
-        // Atualiza o estado com a lista de profissionais aleatória
-        setFilteredProfessionals(professionals);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar profissionais:", error);
-      });
-  }, []); // O array vazio faz isso rodar apenas na primeira renderização
+    filterProfessionals(); // Executa a busca automaticamente sempre que os filtros mudam
+  }, [region, specialty, groupAge]); // Re-executa sempre que os filtros (parâmetros) mudarem
 
   const professionalsToShow = filteredProfessionals.slice(0, visibleCount);
 
   return (
     <>
       <Header renderButtons={false} />
-      <section className="flex flex-col items-center bg-white py-8">
+      <section className="flex flex-col items-center bg-mobile-bg shadow-lg py-8">
         <div className="w-3/5 bg-gray-200 p-8 rounded-lg shadow-lg mt-8 flex flex-col items-center">
           <h2 className="text-gray-700 font-thin text-2xl italic mb-4">
             Buscar Profissionais
@@ -137,13 +134,6 @@ const SearchProfessional = () => {
               <option value="idosos">Idosos</option>
             </select>
           </div>
-
-          <button
-            onClick={filterProfessionals} // Apenas aplica os filtros
-            className="px-10 py-3 mt-6 bg-green-500 text-white rounded hover:bg-green-700"
-          >
-            Buscar
-          </button>
         </div>
 
         <div className="w-3/5 mt-10">
@@ -187,7 +177,6 @@ const SearchProfessional = () => {
                   <p className="text-gray-600">{profissional.faixa_etaria}</p>
                 </div>
 
-                {/* So ta aqui por estar*/}
                 <button className="ml-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
                   Saber mais
                 </button>

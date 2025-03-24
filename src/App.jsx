@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 // import About from "./pages/About";
 // import Groups from "./pages/Groups";
 import Testimony from "./pages/Testimony";
-import TestimonyList from "./components/TestimonyList";
+/*import TestimonyList from "./components/TestimonyList";*/
 import Login from "./pages/Login.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import SignUp from "./components/SignUp.jsx";
@@ -19,7 +19,7 @@ const App = () => {
         {/* <Route path="/about" element={<About />} />
         <Route path="/groups" element={<Groups />} /> */}
         <Route path="/testimony" element={<Testimony />} />
-        <Route path="/testimonies" element={<TestimonyList />} /> {/* Nova rota para a lista de depoimentos */}
+       {/* <Route path="/testimonies" element={<TestimonyList />} /> {/* Nova rota para a lista de depoimentos */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
