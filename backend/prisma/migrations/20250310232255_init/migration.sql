@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Depoimento" ALTER COLUMN "data" SET DEFAULT CURRENT_TIMESTAMP;
