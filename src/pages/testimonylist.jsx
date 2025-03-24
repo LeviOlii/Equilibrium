@@ -1,46 +1,23 @@
-import { useEffect, useState } from "react";
+import { useTestimony } from "../context/TestimonyContext";
 
 const TestimonyList = () => {
-    const [testimonies, setTestimonies] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchTestimonies = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/api/testimonies");
-                if (!response.ok) throw new Error("Erro ao buscar depoimentos");
-
-                const data = await response.json();
-                setTestimonies(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchTestimonies();
-    }, []);
-
-    if (loading) return <p>Carregando depoimentos...</p>;
+    const { testimonies } = useTestimony();
 
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Depoimentos</h2>
-            {testimonies.length === 0 ? (
-                <p>Nenhum depoimento encontrado.</p>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {testimonies.length > 0 ? (
+                testimonies.map(({ id, content, user }) => (
+                    <div key={id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <p className="italic">"{content}"</p>
+                        <p className="text-right text-sm text-gray-700 mt-2">- {user.name} ({user.role})</p>
+                    </div>
+                ))
             ) : (
-                <ul>
-                    {testimonies.map((t) => (
-                        <li key={t.id} className="border p-4 mb-4 rounded-lg shadow-md">
-                            <p className="font-semibold">{t.name} - <span className="text-sm italic">{t.role}</span></p>
-                            <p className="text-gray-700">{t.testimony}</p>
-                        </li>
-                    ))}
-                </ul>
+                <p className="text-center text-gray-600">Nenhum testemunho ainda.</p>
             )}
         </div>
     );
 };
 
 export default TestimonyList;
+
