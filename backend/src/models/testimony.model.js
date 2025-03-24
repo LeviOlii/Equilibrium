@@ -1,30 +1,22 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const Usuario = require("./Usuario"); // Importa o modelo de usuários
+import { PrismaClient } from "@prisma/client";
 
-const Testimony = sequelize.define("Testimony", {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    usuario_id: {  // Associa depoimento a um usuário
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Usuario,
-            key: "id",
-        },
-    },
-    role: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    testimony: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
-});
+const prisma = new PrismaClient();
+
+// Define o modelo de depoimentos
+async function createTestimony(data) {
+    return await prisma.testimony.create({
+        data,
+    });
+}
+
+async function getTestimonies() {
+    return await prisma.testimony.findMany({
+        include: { usuario: true },
+    });
+}
+
+export { createTestimony, getTestimonies };
+
 
 // Define a relação entre Testimony e Usuario
 Testimony.belongsTo(Usuario, { foreignKey: "usuario_id" });
