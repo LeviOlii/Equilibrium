@@ -1,60 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Testimony = () => {
-    const [name, setName] = useState("");
-    const [role, setRole] = useState("");
+const Testimony = ({ userId }) => {
+    const [user, setUser] = useState(null);
     const [testimony, setTestimony] = useState("");
     const [isAnonymous, setIsAnonymous] = useState(false);
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`/api/users/${userId}`);
+                const data = await response.json();
+                setUser(data);
+            } catch (error) {
+                console.error("Erro ao buscar usuário:", error);
+            }
+        };
+        
+        if (userId) {
+            fetchUser();
+        }
+    }, [userId]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const newTestimony = {
-            name: isAnonymous ? "Anônimo" : name,
-            role: isAnonymous ? "" : role,
+            name: isAnonymous ? "Anônimo" : user?.name,
+            role: isAnonymous ? "" : user?.role,
             testimony,
         };
 
         console.log("Novo depoimento enviado:", newTestimony);
 
-        setName("");
-        setRole("");
         setTestimony("");
         setIsAnonymous(false);
     };
 
     return (
-        <section className="bg-brand-white px-8 md:px-16 font-dmSans pt-20 pb-36">
-            <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
-                <h2 className="text-3xl font-bold text-desktop-bg text-center mb-6">Deixe seu Depoimento</h2>
+        <section className="bg-white px-8 md:px-16 font-sans pt-20 pb-36">
+            <div className="max-w-2xl mx-auto bg-gray-100 p-8 rounded-xl shadow-lg">
+                <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Deixe seu Depoimento</h2>
                 <p className="text-gray-600 text-center mb-6">Compartilhe sua experiência e ajude outras pessoas a conhecerem a Equilibrium.</p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {!isAnonymous && (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Seu nome"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-green"
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="Sua ocupação"
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-green"
-                                required
-                            />
-                        </>
-                    )}
                     <textarea
                         placeholder="Escreva seu depoimento..."
                         value={testimony}
                         onChange={(e) => setTestimony(e.target.value)}
-                        className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-green"
+                        className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         rows="4"
                         required
                     ></textarea>
@@ -69,7 +62,7 @@ const Testimony = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-brand-green hover:bg-brand-green-hover text-white font-bold py-3 rounded-md transition"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-md transition"
                     >
                         Enviar Depoimento
                     </button>
@@ -80,3 +73,4 @@ const Testimony = () => {
 };
 
 export default Testimony;
+
