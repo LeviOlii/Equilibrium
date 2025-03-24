@@ -1,13 +1,13 @@
 const prisma = require("../prisma");
 
-const listarUsuarios = async () => {
+export default async function listarUsuarios(){
     return prisma.usuario.findMany();
 };
 
-const buscarUsuarioPorId = async (id) => {
+export default async function buscarUsuarioPorId (id){
     const usuario = await prisma.usuario.findUnique({
         where: { id },
-        include: {
+        include: { //agr inclui os dados de paciente/profissional
             Paciente: true,
             Profissional: true,
         }
@@ -18,9 +18,9 @@ const buscarUsuarioPorId = async (id) => {
     }
 
     return usuario;
-};
+}
 
-const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profissionalData }) => {
+export default async function criarUsuario ({ nome, email, senha, tipo, pacienteData, profissionalData }){
     const usuarioExistente = await prisma.usuario.findUnique({
         where: { email },
     });
@@ -29,6 +29,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
         throw new Error("E-mail já cadastrado!");
     }
 
+    //Cria usuário na tabela Usuário
     const usuario = await prisma.usuario.create({
         data: {
             nome,
@@ -38,6 +39,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
         },
     });
 
+    //Se for paciente, cria registro na tabela Paciente
     if (tipo.toUpperCase() === "PACIENTE" && pacienteData) {
         await prisma.paciente.create({
             data: {
@@ -51,7 +53,7 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
             }
         });
     }
-
+    //Se for profissional, cria registro na tabela Paciente
     if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData) {
         await prisma.profissional.create({
             data: {
@@ -67,7 +69,8 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
     return usuario;
 };
 
-const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, profissionalData }) => {
+export default async function atualizarUsuario (id, { nome, email, senha, tipo, pacienteData, profissionalData }) {
+    // Verifica se o usuário existe
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -76,6 +79,7 @@ const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, pr
         throw new Error('Usuário não encontrado');
     }
 
+    // Atualiza os dados do usuário na tabela Usuario
     const usuarioAtualizado = await prisma.usuario.update({
         where: { id },
         data: {
@@ -86,6 +90,7 @@ const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, pr
         },
     });
 
+    // Se for paciente, atualiza os dados na tabela Paciente
     if (usuarioAtualizado.tipo === "PACIENTE" && pacienteData) {
         await prisma.paciente.updateMany({
             where: { usuario_id: id },
@@ -100,6 +105,7 @@ const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, pr
         });
     }
 
+    // Se for profissional, atualiza os dados na tabela Profissional
     if (usuarioAtualizado.tipo === "PROFISSIONAL" && profissionalData) {
         await prisma.profissional.update({
             where: { usuario_id: id },
@@ -116,7 +122,8 @@ const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, pr
     return usuarioAtualizado;
 };
 
-const deletarUsuario = async (id) => {
+export default async function deletarUsuario (id){
+    // Verifica se existe o usuário
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -124,16 +131,8 @@ const deletarUsuario = async (id) => {
     if (!usuario) {
         throw new Error('Usuário não encontrao!');
     }
-
+z
     await prisma.usuario.delete({
         where: { id },
     });
-};
-
-module.exports = {
-    listarUsuarios,
-    buscarUsuarioPorId,
-    criarUsuario,
-    atualizarUsuario,
-    deletarUsuario
 };
