@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const Usuario = require("./Usuario"); // Importa o modelo de usuários
 
 const Testimony = sequelize.define("Testimony", {
     id: {
@@ -7,9 +8,13 @@ const Testimony = sequelize.define("Testimony", {
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
-        type: DataTypes.STRING,
+    usuario_id: {  // Associa depoimento a um usuário
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Usuario,
+            key: "id",
+        },
     },
     role: {
         type: DataTypes.STRING,
@@ -20,5 +25,8 @@ const Testimony = sequelize.define("Testimony", {
         allowNull: false,
     },
 });
+
+// Define a relação entre Testimony e Usuario
+Testimony.belongsTo(Usuario, { foreignKey: "usuario_id" });
 
 module.exports = Testimony;
