@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const AccountLogin = () => {
   const [email, setEmail] = useState('');
@@ -66,7 +67,9 @@ const AccountLogin = () => {
             />
 
             <br />
-            <a className="text-gray-headline" href="/signup">Não possui uma conta?</a>
+            <Link to="/signup">
+            <p className="text-gray-headline">Não possui uma conta?</p>
+            </Link>
             <br />
             {/* <a className="text-gray-headline" href="_blank">Esqueceu sua senha?</a>
             <br /> */}
