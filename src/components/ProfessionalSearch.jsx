@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
+import {Link} from "react-router-dom";
 
 const SearchProfessional = () => {
   const [specialty, setSpecialty] = useState("");
@@ -188,11 +189,15 @@ const SearchProfessional = () => {
                 </div>
 
                 {/* So ta aqui por estar*/}
-                <button className="ml-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                <Link 
+                  to={`/profile/${profissional.usuario.id}`} 
+                  className="ml-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 inline-block text-center"
+                  >
                   Saber mais
-                </button>
+                </Link>
+
               </div>
-            ))
+            ))  
           )}
 
           {filteredProfessionals.length > visibleCount && (
