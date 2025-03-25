@@ -20,10 +20,12 @@ const buscarUsuarioPorId = async (id) => {
     return usuario;
 };
 
-const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profissionalData }) => {
+const criarUsuario = async ({ nome, email, senha, tipo, Paciente, Profissional }) => {
     const usuarioExistente = await prisma.usuario.findUnique({
         where: { email },
     });
+
+    console.log("model Profissional", Profissional);
 
     if (usuarioExistente) {
         throw new Error("E-mail já cadastrado!");
@@ -38,36 +40,36 @@ const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profission
         },
     });
 
-    if (tipo.toUpperCase() === "PACIENTE" && pacienteData) {
+    if (tipo.toUpperCase() === "PACIENTE" && Paciente) {
         await prisma.paciente.create({
             data: {
                 usuario_id: usuario.id,
-                idade: pacienteData.idade,
-                genero: pacienteData.genero,
-                queixas: pacienteData.queixas,
-                historico_familiar: pacienteData.historico_familiar,
-                uso_medicamentos: pacienteData.uso_medicamentos,
-                objetivo_terapia: pacienteData.objetivo_terapia,
+                idade: Paciente.idade,
+                genero: Paciente.genero,
+                queixas: Paciente.queixas,
+                historico_familiar: Paciente.historico_familiar,
+                uso_medicamentos: Paciente.uso_medicamentos,
+                objetivo_terapia: Paciente.objetivo_terapia,
             }
         });
     }
 
-    if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData) {
+    if (tipo.toUpperCase() === "PROFISSIONAL" && Profissional) {
         await prisma.profissional.create({
             data: {
                 usuario_id: usuario.id,
-                especialidade: profissionalData.especialidade,
-                localizacao: profissionalData.localizacao,
-                faixa_etaria: profissionalData.faixa_etaria,
-                atendimentos_gratuitos: profissionalData.atendimentos_gratuitos,
-                foto: profissionalData.foto,
+                especialidade: Profissional.especialidade,
+                localizacao: Profissional.localizacao,
+                faixa_etaria: Profissional.faixa_etaria,
+                atendimentos_gratuitos: Profissional.atendimentos_gratuitos,
+                foto: Profissional.foto,
             }
         });
     }
     return usuario;
 };
 
-const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, profissionalData }) => {
+const atualizarUsuario = async (id, { nome, email, Paciente, Profissional }) => {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -81,34 +83,32 @@ const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, pr
         data: {
             nome,
             email,
-            senha,
-            tipo,
         },
     });
 
-    if (usuarioAtualizado.tipo === "PACIENTE" && pacienteData) {
+    if (usuarioAtualizado.tipo === "PACIENTE" && Paciente) {
         await prisma.paciente.updateMany({
             where: { usuario_id: id },
             data: {
-                idade: pacienteData.idade,
-                genero: pacienteData.genero,
-                queixas: pacienteData.queixas,
-                historico_familiar: pacienteData.historico_familiar,
-                uso_medicamentos: pacienteData.uso_medicamentos,
-                objetivo_terapia: pacienteData.objetivo_terapia,
+                idade: Paciente.idade,
+                genero: Paciente.genero,
+                queixas: Paciente.queixas,
+                historico_familiar: Paciente.historico_familiar,
+                uso_medicamentos: Paciente.uso_medicamentos,
+                objetivo_terapia: Paciente.objetivo_terapia,
             },
         });
     }
 
-    if (usuarioAtualizado.tipo === "PROFISSIONAL" && profissionalData) {
+    if (usuarioAtualizado.tipo === "PROFISSIONAL" && Profissional) {
         await prisma.profissional.update({
             where: { usuario_id: id },
             data: {
-                especialidade: profissionalData.especialidade,
-                localizacao: profissionalData.localizacao,
-                faixa_etaria: profissionalData.faixa_etaria,
-                atendimentos_gratuitos: profissionalData.atendimentos_gratuitos,
-                foto: profissionalData.foto,
+                especialidade: Profissional.especialidade,
+                localizacao: Profissional.localizacao,
+                faixa_etaria: Profissional.faixa_etaria,
+                atendimentos_gratuitos: Profissional.atendimentos_gratuitos,
+                foto: Profissional.foto,
             },
         });
     }

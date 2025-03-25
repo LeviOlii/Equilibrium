@@ -5,6 +5,8 @@ const auth = require('../auth/auth')
 const router = express.Router();
 
 //Definindo rotas
+
+// need middleware
 router.get("/usuarios", userController.listarUsuarios);
 router.get("/usuarios/:id", userController.buscarUsuarioPorId);
 router.post("/usuarios", userController.criarUsuario);
