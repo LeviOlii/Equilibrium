@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 const groups = [
-    { id: 1, name: "Apoio à Ansiedade", region: "São Paulo", specialty: "Ansiedade" },
-    { id: 2, name: "Grupo de Terapia Infantil", region: "Rio de Janeiro", specialty: "Terapia Infantil" },
-    { id: 3, name: "Cuidando da Mente", region: "Ceará", specialty: "Saúde Mental" },
-    { id: 4, name: "Viva Bem", region: "Minas Gerais", specialty: "Bem-Estar" },
-    { id: 5, name: "Superando a Depressão", region: "Ceará", specialty: "Depressão" },
+    { id: 1, name: "Apoio à Ansiedade", region: "Fortaleza", specialty: "Ansiedade" },
+    { id: 2, name: "Grupo de Terapia Infantil", region: "Quixadá", specialty: "Terapia Infantil" },
+    { id: 3, name: "Cuidando da Mente", region: "Caucaia", specialty: "Saúde Mental" },
+    { id: 4, name: "Viva Bem", region: "Eusébio", specialty: "Bem-Estar" },
+    { id: 5, name: "Superando a Depressão", region: "Maracanau", specialty: "Depressão" },
 ];
 
 const GroupList = () => {
@@ -27,11 +27,12 @@ const GroupList = () => {
                         className="p-2 border rounded-md w-full md:w-auto"
                         onChange={(e) => setRegionFilter(e.target.value)}
                     >
-                        <option value="">Todas as regiões</option>
-                        <option value="São Paulo">São Paulo</option>
-                        <option value="Rio de Janeiro">Rio de Janeiro</option>
-                        <option value="Ceará">Ceará</option>
-                        <option value="Minas Gerais">Minas Gerais</option>
+                        <option value="">Selecione</option>
+                        <option value="Fortaleza">Fortaleza</option>
+                        <option value="Quixadá">Quixadá</option>
+                        <option value="Caucaia">Caucaia</option>
+                        <option value="Eusébio">Eusébio</option>
+                        <option value="Maracanaú">Maracanaú</option>
                     </select>
 
                     <select
