@@ -24,7 +24,7 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
           email: email,
           senha: password,
           tipo: role,
-          pacienteData:{
+          Paciente:{
             idade: Number(age), 
             genero: gender,
             queixas: complaints,
@@ -32,7 +32,7 @@ const Anamnesis = ({username,email,password, role, goToFirstForm, setError, erro
             uso_medicamentos: medication,
             objetivo_terapia: goal
           },
-          profissionalData:null        
+          Profissional:null        
         }
 
         const user = await axios.post("http://localhost:3000/api/usuarios", userData,{

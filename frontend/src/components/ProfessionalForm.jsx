@@ -26,8 +26,8 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
           email: email,
           senha: password,
           tipo: role,
-          pacienteData: null,
-          profissionalData:{
+          Paciente: null,
+          Profissional:{
             especialidade: speciality,
             localizacao: address,
             faixa_etaria: ageRange,
