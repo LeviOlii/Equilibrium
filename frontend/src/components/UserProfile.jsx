@@ -53,6 +53,7 @@ const UserProfile = ({ userId }) => {
     }
     carregarDadosUsuario();
   }, [user]);
+
   const handleEditClick = async () => {
     // iterar
       // se de profissional abrir outro for loop
@@ -345,14 +346,12 @@ const UserProfile = ({ userId }) => {
             {edit ? 'Salvar' : 'Editar'}
           </button>)}
 
-          {(currentUser.id === user.id || currentUser.tipo == "ADMIN") && (
+          {((currentUser.id === user.id || currentUser.tipo == "ADMIN") && !edit) && (
             <button
             onClick={handleDelete}
             className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-red-600 hover:text-brand-white transition">
             Delete
           </button>)}
-
-
 
           {edit && (
           <button
