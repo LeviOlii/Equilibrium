@@ -6,13 +6,12 @@ const router = express.Router();
 
 //Definindo rotas
 
-// need middleware
 router.get("/usuarios", userController.listarUsuarios);
-router.get("/usuarios/:id", userController.buscarUsuarioPorId);
+router.get("/usuarios/:id", middleware.userGetMiddleware, userController.buscarUsuarioPorId);
 router.post("/usuarios", userController.criarUsuario);
-router.put("/usuarios/:id", middleware.userAuthMiddleware ,userController.atualizarUsuario);
-router.delete("/usuarios/:id", middleware.userAuthMiddleware, userController.deletarUsuario);
-// EU NÃO TESTEI ESSE DELETE COM MIDDLEWARE, TO COM PREGUIÇA
+router.put("/usuarios/:id", middleware.userPutDeleteMiddleware ,userController.atualizarUsuario);
+router.delete("/usuarios/:id", middleware.userPutDeleteMiddleware, userController.deletarUsuario);
+// EU NÃO TESTEI ESSE DELETE COM MIDDLEWARE, DEVE ESTAR PRESTANDO
 
 router.get("/check-auth", auth.checkAuth);
 

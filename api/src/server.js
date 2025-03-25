@@ -6,6 +6,9 @@ const professionalRoutes = require("./routes/professional.routes");
 
 const app = express();
 
+// form de foto
+// terminar de ajeitar a edição do perfil
+
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true

@@ -20,26 +20,12 @@ const UserProfile = ({ userId }) => {
       if (res.data.isLoggedIn) { // se ele tiver logado
         setCurrentUser(res.data.user);
         if (userId && Number.isInteger(userId) && userId >= 1) { // se tiver um :id dps do /profile
-          if (res.data.user.tipo === "PACIENTE") {
-            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
-            if (response.data.tipo === "PACIENTE" || response.data.tipo === "ADMIN") {
-              navigate('/');
-            } else {
-              setUser(response.data);
-            }
-          } else { // isso daq é se o cara for profissional
-            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
-            if (response.data.tipo === "ADMIN") {
-              navigate('/');
-            }
-            else {
-              setUser(response.data);
-            }
-          }
+          const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {withCredentials: true});
+          setUser(response.data);
         } else { // se n tiver :id, abre o perfil dele
           try {
             const userId = res.data.user.id;
-            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {withCredentials: true});
             setUser(response.data);
           } catch (err) {
             setError('Erro ao carregar os dados');
@@ -54,18 +40,20 @@ const UserProfile = ({ userId }) => {
   }, [user]);
 
   const handleEditClick = async () => {
-    console.log(user.Profissional.localizacao);
     // iterar
       // se de profissional abrir outro for loop
     if(edit){
       const newUser = {...user, ...editedUser};
       try{
-        const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, newUser);
+        const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, newUser, {
+          withCredentials: true,
+        });
         setUser(res.data);
       } catch (error){
         setError("falha ao atualizar");
       }
-      console.log(newUser);
+      
+      console.log(editedUser);
     }
     setEdit(!edit);
   

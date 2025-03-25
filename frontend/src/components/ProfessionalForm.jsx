@@ -38,7 +38,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
 
         console.log(userData);
 
-        const user = await axios.post("http://localhost:3000/api/usuarios", userData  , {
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData, {
           withCredentials: true
         })  
 
