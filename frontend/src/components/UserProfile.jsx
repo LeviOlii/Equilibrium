@@ -12,6 +12,7 @@ const UserProfile = ({ userId }) => {
   const [edit, setEdit] = useState(false);
   const [editedUser, setEditedUser] = useState({});
 
+  
   useEffect(() => {
     const carregarDadosUsuario = async () => {
       const res = await axios.get("http://localhost:3000/api/check-auth", {
@@ -20,12 +21,26 @@ const UserProfile = ({ userId }) => {
       if (res.data.isLoggedIn) { // se ele tiver logado
         setCurrentUser(res.data.user);
         if (userId && Number.isInteger(userId) && userId >= 1) { // se tiver um :id dps do /profile
-          const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {withCredentials: true});
-          setUser(response.data);
+          if (res.data.user.tipo === "PACIENTE") {
+            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+            if (response.data.tipo === "PACIENTE" || response.data.tipo === "ADMIN") {
+              navigate('/');
+            } else {
+              setUser(response.data);
+            }
+          } else { // isso daq é se o cara for profissional
+            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
+            if (response.data.tipo === "ADMIN") {
+              navigate('/');
+            }
+            else {
+              setUser(response.data);
+            }
+          }
         } else { // se n tiver :id, abre o perfil dele
           try {
             const userId = res.data.user.id;
-            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {withCredentials: true});
+            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`);
             setUser(response.data);
           } catch (err) {
             setError('Erro ao carregar os dados');
@@ -38,7 +53,6 @@ const UserProfile = ({ userId }) => {
     }
     carregarDadosUsuario();
   }, [user]);
-
   const handleEditClick = async () => {
     // iterar
       // se de profissional abrir outro for loop
@@ -48,6 +62,7 @@ const UserProfile = ({ userId }) => {
         const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, newUser, {
           withCredentials: true,
         });
+        
         setUser(res.data);
       } catch (error){
         setError("falha ao atualizar");
@@ -56,8 +71,20 @@ const UserProfile = ({ userId }) => {
       console.log(editedUser);
     }
     setEdit(!edit);
-  
   };
+
+  const handleDelete = async () => {
+    try{
+      const res = await axios.delete(`http://localhost:3000/api/usuarios/${user.id}`, {
+        withCredentials: true
+      })
+      await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true }); 
+      navigate('/');
+      
+    }catch(error){
+      setError("Falha ao deletar usuário");
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -317,7 +344,15 @@ const UserProfile = ({ userId }) => {
             className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-desktop-bg hover:text-brand-white transition">
             {edit ? 'Salvar' : 'Editar'}
           </button>)}
-          
+
+          {(currentUser.id === user.id || currentUser.tipo == "ADMIN") && (
+            <button
+            onClick={handleDelete}
+            className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-red-600 hover:text-brand-white transition">
+            Delete
+          </button>)}
+
+
 
           {edit && (
           <button
