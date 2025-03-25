@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-import ProfileField from "./ProfileField";
-
 
 
 const UserProfile = ({ userId }) => {
@@ -53,10 +51,24 @@ const UserProfile = ({ userId }) => {
       };
     }
     carregarDadosUsuario();
-  }, []);
+  }, [user]);
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
+    console.log(user.Profissional.localizacao);
+    // iterar
+      // se de profissional abrir outro for loop
+    if(edit){
+      const newUser = {...user, ...editedUser};
+      try{
+        const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, newUser);
+        setUser(res.data);
+      } catch (error){
+        setError("falha ao atualizar");
+      }
+      console.log(newUser);
+    }
     setEdit(!edit);
+  
   };
 
   const handleChange = (e) => {
@@ -65,7 +77,6 @@ const UserProfile = ({ userId }) => {
       ...prev,
       [name]: value,
     }));
-    console.log(editedUser);
   };
 
   if (error) {
@@ -229,50 +240,60 @@ const UserProfile = ({ userId }) => {
             <form>
               {user.Profissional.foto && <img src={user.Profissional.foto} alt="Foto do profissional" className="mt-4 w-32 h-32 rounded-full mx-auto" />}
                   
-                  <div className="my-2">
+                  <div className="mr-4 ">
                     <label className="font-bold text-desktop-bg mr-2">Especialidade:</label>
-                    <input
-                      className="bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none"
+                    <select
+                      className="w-[57%] bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none text-center"
                       type="text"
                       name="especialidade"
                       value={editedUser.Profissional?.especialidade}
                       onChange={handleChange}
-                    />
+                    >
+                    <option value="">Selecione</option>
+                    <option value="terapia-infantil">Terapia Infantil</option>
+                    <option value="Ansiedade">Ansiedade</option>
+                    <option value="Depressão">Depressão</option>
+                    <option value="Casal">Terapia de Casal</option>
+                    </select>
                   </div>
                   <br />
 
-                  <div className="my-2">
+                  <div className="mb-6">
                     <label className="font-bold text-desktop-bg mr-2">Localização:</label>
-                    <input
-                      className="bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none"
+                    <select
+                      className="w-[55%] bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none text-center"
                       type="text"
                       name="localizacao"
                       value={editedUser.Profissional?.localizacao}
                       onChange={handleChange}
-                    />
+                      >
+                    <option value="">Selecione</option>
+                    <option value="Fortaleza">Fortaleza</option>
+                    <option value="Quixadá">Quixadá</option>
+                    <option value="Caucaia">Caucaia</option>
+                    <option value="Eusébio">Eusébio</option>
+                    <option value="Maracanaú">Maracanaú</option>
+
+                      </select>
+                    
                   </div>
 
 
                   <div className="my-2">
-                    <label className="font-bold text-desktop-bg mr-2">Faixa Etária de Atendimento:</label>
-                    <input
-                      className="bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none"
+                    <label className="font-bold text-desktop-bg mr-2">Faixa Etária:</label>
+                    <select
+                      className="w-[55%] bg-brand-beige border-2 border-desktop-bg rounded-md focus:outline-none text-center"
                       type="number"
                       name="faixa_etaria"
                       value={editedUser.Profissional?.faixa_etaria}
                       onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="my-2">
-                    <label className="font-bold text-desktop-bg mr-2">Atendimentos Gratuitos:</label>
-                    <input
-                      className="accent-desktop-bg "
-                      type="checkbox"
-                      name="atendimentos_gratuitos"
-                      value={editedUser.Profissional?.atendimentos_gratuitos}
-                      onChange={handleChange}
-                    />
+                    >
+                    <option value="">Selecione</option>
+                    <option value="Crianças">Crianças</option>
+                    <option value="Adolescentes">Adolescentes</option>
+                    <option value="Adultos">Adultos</option>
+                    <option value="Idosos">Idosos</option>
+                    </select>
                   </div>
             </form>
             ) : (

@@ -38,7 +38,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
 
         console.log(userData);
 
-        const user = await axios.post("http://localhost:3000/api/usuarios", userData, {
+        const user = await axios.post("http://localhost:3000/api/usuarios", userData  , {
           withCredentials: true
         })  
 
@@ -84,7 +84,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
           
               >
                 <option value="">Selecione</option>
-                <option value="Terapia-infantil">Terapia Infantil</option>
+                <option value="terapia-infantil">Terapia Infantil</option>
                 <option value="Ansiedade">Ansiedade</option>
                 <option value="Depressão">Depressão</option>
                 <option value="Casal">Terapia de Casal</option>

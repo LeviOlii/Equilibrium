@@ -112,7 +112,7 @@ const SignUp = () => {
             <br />
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Cadastrar-se</button>
             <Link to="/login">
-            <p className="-my-3 text-gray-headline">Já possui uma conta?</p>
+              <p className="-my-3 text-gray-headline">Já possui uma conta?</p>
             </Link>
           </form>
         </div>
