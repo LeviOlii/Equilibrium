@@ -79,8 +79,13 @@ const UserProfile = ({ userId }) => {
       const res = await axios.delete(`http://localhost:3000/api/usuarios/${user.id}`, {
         withCredentials: true
       })
-      await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true }); 
-      navigate('/');
+      if (currentUser.id === user.id){
+        await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
+      } else {
+        navigate('/');
+      }
+       
+      
       
     }catch(error){
       setError("Falha ao deletar usuário");
