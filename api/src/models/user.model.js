@@ -1,13 +1,13 @@
 const prisma = require("../prisma");
 
-const listarUsuarios = async () => {
+async function listarUsuarios() {
     return prisma.usuario.findMany();
-};
+}
 
-const buscarUsuarioPorId = async (id) => {
+async function buscarUsuarioPorId(id) {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
-        include: {
+        include: { // agora inclui os dados de paciente/profissional
             Paciente: true,
             Profissional: true,
         }
@@ -18,9 +18,9 @@ const buscarUsuarioPorId = async (id) => {
     }
 
     return usuario;
-};
+}
 
-const criarUsuario = async ({ nome, email, senha, tipo, Paciente, Profissional }) => {
+async function criarUsuario({ nome, email, senha, tipo, Paciente, Profissional }) {
     const usuarioExistente = await prisma.usuario.findUnique({
         where: { email },
     });
@@ -67,9 +67,9 @@ const criarUsuario = async ({ nome, email, senha, tipo, Paciente, Profissional }
         });
     }
     return usuario;
-};
+}
 
-const atualizarUsuario = async (id, { nome, email, Paciente, Profissional }) => {
+async function atualizarUsuario(id, { nome, email, Paciente, Profissional }) {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -114,26 +114,20 @@ const atualizarUsuario = async (id, { nome, email, Paciente, Profissional }) => 
     }
 
     return usuarioAtualizado;
-};
+}
 
-const deletarUsuario = async (id) => {
+async function deletarUsuario(id) {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
 
     if (!usuario) {
-        throw new Error('Usuário não encontrao!');
+        throw new Error('Usuário não encontrado!');
     }
 
     await prisma.usuario.delete({
         where: { id },
     });
-};
+}
 
-module.exports = {
-    listarUsuarios,
-    buscarUsuarioPorId,
-    criarUsuario,
-    atualizarUsuario,
-    deletarUsuario
-};
+module.exports = { listarUsuarios, buscarUsuarioPorId, criarUsuario, atualizarUsuario, deletarUsuario };
