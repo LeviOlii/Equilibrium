@@ -6,14 +6,20 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
   const [address, setAddress] = useState('');
   const [freeService, setFreeService] = useState();
   const [ageRange, setAgeRange] = useState('');
+  const [foto, setFoto] = useState('');
   const navigate = useNavigate();
 
-  const ParseNumber = (setter) => (e) => {
-    const value = e.target.value
-    if (value >= 0){
-      setter(value);
-    }
-  }
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      setFoto(reader.result);
+    };
+  
+    if (file) {
+      reader.readAsDataURL(file); // ← conversão para Base64
+  }}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +38,7 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
             localizacao: address,
             faixa_etaria: ageRange,
             atendimentos_gratuitos: freeService,
-            foto: "1", // implement form of this  
+            foto: foto, // implement form of this  
           }        
         }
 
@@ -144,6 +150,15 @@ const ProfessionalForm = ({username,email,password, role, goToFirstForm, setErro
               <option value="false">Não</option>
               
             </select>
+
+            <label htmlFor="foto" className="block text-left">Foto do profissional</label>
+            <input
+              type="file"
+              id="foto"
+              accept="image/*"
+              className="bg-mobile-bg italic mb-6 p-2 border-2 border-solid rounded-xl shadow-md w-full"
+              onChange={handleImage}
+            />
             <br />
                 
             <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
