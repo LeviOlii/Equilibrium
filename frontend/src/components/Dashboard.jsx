@@ -123,9 +123,9 @@ const Dashboard = () => {
 
                     {/* Painéis de informações */}
                     <div className={activePanel === "usuarios" ?
-                        "flex flex-col gap-10 ml-[25%] md:ml-0 p-4 w-full max-w-[90%] md:grid  md:grid-rows-4 md:grid-cols-4 gap-4 gap-x-[60px] justify-start" :
+                        "flex flex-col gap-10 ml-[33%] md:ml-0 p-4 w-full max-w-[90%] md:grid  md:grid-rows-4 md:grid-cols-4 gap-4 gap-x-[60px] justify-start" :
                         // ISSO AQ DEBAIXO É PRA CELULAR
-                        "p-4 w-full max-w-4xl flex flex-col items-center"}>
+                        "w-full max-w-4xl flex flex-col items-center "}>
 
                         {activePanel === "usuarios" && (
                             <>
