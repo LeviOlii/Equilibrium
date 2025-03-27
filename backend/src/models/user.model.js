@@ -2,7 +2,12 @@ const prisma = require("../prisma");
 const express = require("express");
 
 const listarUsuarios = async () => {
-    return await prisma.usuario.findMany();
+    return await prisma.usuario.findMany({
+        include: {
+            Paciente: true,
+            Profissional: true,
+        },
+    });
 };
 
 const buscarUsuarioPorId = async (id) => {
