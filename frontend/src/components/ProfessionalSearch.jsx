@@ -173,7 +173,7 @@ const SearchProfessional = () => {
                   <h2 className="text-xl font-semibold text-gray-800">
                     {profissional.usuario?.nome}
                   </h2>
-                  <p className="text-gray-600">{profissional.especialidade}</p>
+                  <p className="text-gray-600">{profissional.especialidade === "terapia-infantil" ? "Terapia Infantil" : profissional.especialidade}</p>
                   <p className="text-gray-600">{profissional.localizacao}</p>
                   <p className="text-gray-600">{profissional.faixa_etaria}</p>
                 </div>
