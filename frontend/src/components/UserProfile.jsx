@@ -58,18 +58,28 @@ const UserProfile = ({ userId }) => {
     // iterar
       // se de profissional abrir outro for loop
     if(edit){
-      const newUser = {...user, ...editedUser};
       try{
-        const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, newUser, {
+        const updatedUser = { ...user };
+
+        for (const key in editedUser) {
+          if (typeof editedUser[key] === "object" && editedUser[key] !== null) {
+            updatedUser[key] = { ...updatedUser[key], ...editedUser[key] };
+          } else {
+            updatedUser[key] = editedUser[key];
+          }
+        }
+              
+        const res = await axios.put(`http://localhost:3000/api/usuarios/${user.id}`, updatedUser, {
           withCredentials: true,
         });
         
+
         setUser(res.data);
+        
+      
       } catch (error){
         setError("falha ao atualizar");
       }
-      
-      console.log(editedUser);
     }
     setEdit(!edit);
   };
