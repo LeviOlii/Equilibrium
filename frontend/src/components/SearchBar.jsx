@@ -40,7 +40,7 @@ const SearchBar = () => {
         className="flex flex-col md:flex-row gap-4 md:gap-0 items-center"
       >
         <select
-          className="px-1 py-3 border rounded-md w-full md:w-auto lg:mr-2"
+          className="px-4 py-3 border rounded-md w-full md:w-auto lg:mr-2"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
