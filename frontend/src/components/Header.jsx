@@ -177,6 +177,8 @@ const Header = ({ renderButtons = true }) => {
           >
             Depoimentos
           </button>
+          {!isLogged && (
+          <>
           <div className="flex justify-center">
             <Link to={"/signup"}>
               <button className="border-2 border-white py-3 px-6 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition w-full">
@@ -191,6 +193,34 @@ const Header = ({ renderButtons = true }) => {
               </button>
             </Link>
           </div>
+          </>
+        )}
+
+        {isLogged && (
+          <>
+          <div className="flex flex-col justify-center">
+            <Link to="/profile">
+              <div className="user_icon w-[14%] h-11 mx-auto mb-[11%]">
+                <button>
+                  <img
+                    src="https://img.icons8.com/?size=100&id=7820&format=png&color=FFFFFF"
+                    alt="user_icon"
+                  />
+                </button>
+              </div>
+              
+            </Link>
+            <Link to="/api/logout">
+              <button
+                onClick={handleLogout}
+                className="border-2 border-white py-3 px-6 rounded-full hover:bg-brand-green-hover hover:text-brand-green font-bold transition ml-[30%] w-[40%]"
+              >
+                Sair
+              </button>
+            </Link>
+          </div>
+          </>
+        )}
         </nav>
       )}
     </header>
