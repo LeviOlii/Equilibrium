@@ -52,7 +52,7 @@ const TestimonySection = () => {
                         </div>
                     ))}
                 </div>
-                <div className="hidden md:flex absolute w-full justify-center font-dmSans bottom-12 right-5 left-1">
+                <div className="ml-[30%] md:ml-0 md:flex absolute w-full justify-center font-dmSans bottom-12 right-5 left-1">
                     <Link to="/testimony">
                         <button className=" bg-desktop-bg border-2 text-white border-white px-6 py-2 rounded-full hover:bg-brand-green-hover hover:text-brand-green transition"
                         >
