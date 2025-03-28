@@ -27,53 +27,67 @@ const buscarUsuarioPorId = async (id) => {
 }
 
 const criarUsuario = async ({ nome, email, senha, tipo, pacienteData, profissionalData }) => {
-
-    const usuarioExistente = await prisma.usuario.findUnique({
-        where: { email },
-    });
-
-    if (usuarioExistente) {
-        throw new Error("E-mail já cadastrado!");
-    }
-
-    //Cria usuário na tabela Usuário
-    const usuario = await prisma.usuario.create({
-        data: {
-            nome,
-            email,
-            senha,
-            tipo: tipo.toUpperCase(),
-        },
-    });
-
-    //Se for paciente, cria registro na tabela Paciente
-    if (tipo.toUpperCase() === "PACIENTE" && pacienteData) {
-        await prisma.paciente.create({
-            data: {
-                usuario_id: usuario.id,
-                idade: pacienteData.idade,
-                genero: pacienteData.genero,
-                queixas: pacienteData.queixas,
-                historico_familiar: pacienteData.historico_familiar,
-                uso_medicamentos: pacienteData.uso_medicamentos,
-                objetivo_terapia: pacienteData.objetivo_terapia,
-            }
+    return await prisma.$transaction(async (prisma) => {
+        const usuarioExistente = await prisma.usuario.findUnique({
+            where: { email },
         });
-    }
-    //Se for profissional, cria registro na tabela Paciente
-    if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData) {
-        await prisma.profissional.create({
+
+        if (usuarioExistente) {
+            throw new Error("E-mail já cadastrado!");
+        }
+
+        // Cria usuário base
+        const usuario = await prisma.usuario.create({
             data: {
-                usuario_id: usuario.id,
-                especialidade: profissionalData.especialidade,
-                localizacao: profissionalData.localizacao,
-                faixa_etaria: profissionalData.faixa_etaria,
-                atendimentos_gratuitos: profissionalData.atendimentos_gratuitos,
-                foto: profissionalData.foto,
-            }
+                nome,
+                email,
+                senha,
+                tipo: tipo.toUpperCase(),
+            },
         });
-    }
-    return usuario;
+
+        // Se for paciente
+        if (tipo.toUpperCase() === "PACIENTE" && pacienteData) {
+            await prisma.paciente.create({
+                data: {
+                    usuario_id: usuario.id,
+                    idade: pacienteData.idade,
+                    genero: pacienteData.genero,
+                    queixas: pacienteData.queixas,
+                    historico_familiar: pacienteData.historico_familiar,
+                    uso_medicamentos: pacienteData.uso_medicamentos,
+                    objetivo_terapia: pacienteData.objetivo_terapia,
+                }
+            });
+        }
+
+        // Se for profissional
+        if (tipo.toUpperCase() === "PROFISSIONAL" && profissionalData) {
+            const profissional = await prisma.profissional.create({
+                data: {
+                    usuario_id: usuario.id,
+                    especialidade: profissionalData.especialidade,
+                    localizacao: profissionalData.localizacao,
+                    faixa_etaria: profissionalData.faixa_etaria,
+                    atendimentos_gratuitos: profissionalData.atendimentos_gratuitos,
+                    foto: profissionalData.foto || "1",
+                }
+            });
+
+            // Cria disponibilidades se existirem
+            if (profissionalData.disponibilidades && profissionalData.disponibilidades.length > 0) {
+                await prisma.disponibilidade.createMany({
+                    data: profissionalData.disponibilidades.map(d => ({
+                        profissional_id: profissional.id,
+                        dataHora: new Date(d.dataHora),
+                        disponivel: true
+                    }))
+                });
+            }
+        }
+
+        return usuario;
+    });
 };
 
 const atualizarUsuario = async (id, { nome, email, senha, tipo, pacienteData, profissionalData }) => {

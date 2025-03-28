@@ -24,62 +24,64 @@ exports.buscarUsuarioPorId = async (req, res) => {
 
 exports.criarUsuario = async (req, res) => {
     try {
-       const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
-       console.log("Dados recebidos:", req.body);
+        const { nome, email, senha, tipo, pacienteData, profissionalData } = req.body;
+        console.log("Dados recebidos:", req.body);
         
+        // Validação (mantida igual)
+        if (
+            tipo.toUpperCase() === "PACIENTE" &&
+            (!nome || !email || !senha || !pacienteData || 
+            !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || 
+            !pacienteData.historico_familiar || !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia)
+        ) {
+            return res.status(400).json({ error: "Dados incompletos para cadastro de paciente." });
+        }
+        
+        if (
+            tipo.toUpperCase() === "PROFISSIONAL" &&
+            (!nome || !email || !senha || !profissionalData ||
+            !profissionalData.especialidade || !profissionalData.localizacao || 
+            !profissionalData.faixa_etaria || (profissionalData.atendimentos_gratuitos === undefined || profissionalData.atendimentos_gratuitos === null)
+            || !profissionalData.foto)
+        ) {
+            return res.status(400).json({ error: "Dados incompletos para cadastro de profissional." });
+        }
+        
+        const hashed_senha = await bcrypt.hash(senha, 14);
 
-       //Validação
-       if (
-        tipo.toUpperCase() === "PACIENTE" &&
-        (!nome || !email || !senha || !pacienteData || 
-        !pacienteData.idade || !pacienteData.genero || !pacienteData.queixas || 
-        !pacienteData.historico_familiar || !pacienteData.uso_medicamentos || !pacienteData.objetivo_terapia)
-    ) {
-        return res.status(400).json({ error: "Dados incompletos para cadastro de pacienteData." });
-    }
-    
-    if (
-        tipo.toUpperCase() === "PROFISSIONAL" &&
-        (!nome || !email || !senha || !profissionalData ||
-        !profissionalData.especialidade || !profissionalData.localizacao || 
-        !profissionalData.faixa_etaria || (profissionalData.atendimentos_gratuitos === undefined || profissionalData.atendimentos_gratuitos === null)
-        || !profissionalData.foto)
-    ) {
-        return res.status(400).json({ error: "Dados incompletos para cadastro de profissionalData." });
-    }
-    
-       const hashed_senha = await bcrypt.hash(senha, 14);
+        // Cria o usuário (agora com suporte a disponibilidades)
+        const novoUsuario = await Usuario.criarUsuario({
+            nome,
+            email,
+            senha: hashed_senha,  
+            tipo,
+            pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null,
+            profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? {
+                ...profissionalData,
+                disponibilidades: profissionalData.disponibilidades || [] // Campo opcional
+            } : null,
+        });
 
-       const novoUsuario = await Usuario.criarUsuario({
-        nome,
-        email,
-        senha: hashed_senha,  
-        tipo,
-        pacienteData: tipo.toUpperCase() === "PACIENTE" ? pacienteData : null, //Define como null se não for do tipo pacienteData
-        profissionalData: tipo.toUpperCase() === "PROFISSIONAL" ? profissionalData : null, //Define como null se não for do tipo profissionalData
-       });
-
-       if (novoUsuario) {
+        if (novoUsuario) {
             const token = jwt.sign(
                 { tipo: novoUsuario.tipo, id: novoUsuario.id },
                 process.env.SECRET_KEY,
-                { expiresIn: "24h" } // add option for 30 days
+                { expiresIn: "24h" }
             )
 
             res.cookie("token", token, {
                 httpOnly: true,
-                //secure: true
                 sameSite: "Lax",
-                maxAge: 1 * 60 * 60 * 1000 // 24h
+                maxAge: 24 * 60 * 60 * 1000 // 24h
             })
-
-        }   
-       return res.status(201).json(novoUsuario);
+        }
+        
+        return res.status(201).json(novoUsuario);
     } catch(error) {
         if(error.message.includes("E-mail já cadastrado")){
-          return res.status(409).json({error: error.message});
+            return res.status(409).json({error: error.message});
         }
-
+        console.error("Erro detalhado:", error);
         return res.status(500).json({error: 'Erro interno ao cadastrar usuário'});
     }
 };

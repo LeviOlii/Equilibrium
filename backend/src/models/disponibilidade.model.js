@@ -1,25 +1,57 @@
 const prisma = require("../prisma");
 const express = require("express");
 
-const criarDisponibilidade = async ({profissional_id, dataHora, disponivel}) => {
+const criarDisponibilidade = async ({ profissional_id, dataHora, disponivel }) => {
     const profissionalExistente = await prisma.profissional.findUnique({
-        where: {id: profissional_id },
+      where: { id: profissional_id },
     });
-
-    if(!profissionalExistente) {
-        throw new Error("Id informado não é referente a um profissional registrado.");
+  
+    if (!profissionalExistente) {
+      throw new Error("Id informado não é referente a um profissional registrado.");
     }
     
     const disponibilidade = await prisma.disponibilidade.create({
-        data: {
-            profissional_id,
-            dataHora,
-            disponivel,
-        },         
+      data: {
+        profissional_id,
+        dataHora,
+        disponivel,
+      },         
     });
-
+  
     return disponibilidade;
-}
+  };
+  
+  const criarMultiplasDisponibilidades = async (disponibilidades) => {
+    // Verifica se há disponibilidades
+    if (!disponibilidades || disponibilidades.length === 0) {
+      throw new Error("Nenhuma disponibilidade fornecida.");
+    }
+  
+    // Verifica se o profissional existe (usando o primeiro item como referência)
+    const profissionalId = disponibilidades[0].profissional_id;
+    const profissionalExistente = await prisma.profissional.findUnique({
+      where: { id: profissionalId },
+    });
+  
+    if (!profissionalExistente) {
+      throw new Error("Profissional não encontrado.");
+    }
+  
+    // Cria todas as disponibilidades em uma transação
+    const createdAvailabilities = await prisma.$transaction(
+      disponibilidades.map(disponibilidade => 
+        prisma.disponibilidade.create({
+          data: {
+            profissional_id: disponibilidade.profissional_id,
+            dataHora: disponibilidade.dataHora,
+            disponivel: disponibilidade.disponivel
+          }
+        })
+      )
+    );
+  
+    return createdAvailabilities;
+  };
 
 const buscarDisponibilidadesPorIdProfissional = async (profissional_id) => {
     const idInt = parseInt(profissional_id, 10); // Converte para número inteiro
@@ -107,6 +139,7 @@ const deletarDisponibilidade = async (id) => {
 
 module.exports = {
     criarDisponibilidade,
+    criarMultiplasDisponibilidades,
     buscarDisponibilidadesPorIdProfissional,
     buscarDisponibilidadesPorId,
     atualizarDisponibilidade,
