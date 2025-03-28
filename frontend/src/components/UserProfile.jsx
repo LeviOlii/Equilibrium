@@ -91,9 +91,14 @@ const UserProfile = ({ userId }) => {
       })
       if (currentUser.id === user.id){
         await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
-      } else {
         navigate('/');
-      }
+      } else {
+        if (currentUser.tipo === "ADMIN"){
+          navigate('/dashboard');  
+        } else {
+          navigate('/');
+        }
+    }
        
       
       
@@ -367,6 +372,13 @@ const UserProfile = ({ userId }) => {
             className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-red-600 hover:text-brand-white transition">
             Delete
           </button>)}
+
+          {((currentUser.tipo == "ADMIN") && !edit) && (
+           <Link to="/dashboard">
+           <button className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-desktop-bg hover:text-brand-white transition">
+              Dashboard
+           </button>
+         </Link>)}
 
           {edit && (
           <button
