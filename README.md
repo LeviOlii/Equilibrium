@@ -1,20 +1,25 @@
 # Equilibrium
+![Equilibrium](https://github.com/user-attachments/assets/0a19e049-a198-4b5d-85a4-6315f36bd8d4)
 
-O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ideia principal é de ser um site direcionado a pessoas com baixo poder aquisitivo principalmente, que desejam suporte emocional, e profissionais dispostos a oferecer seus serviços gratuitamente ou por preços acessíveis.
+O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ideia principal é ser um site direcionado a pessoas com baixo poder aquisitivo que desejam suporte emocional e profissionais dispostos a oferecer seus serviços gratuitamente ou por preços acessíveis.
 
-- Equipe 5
+
+**Programa Capacita Brasil/C-Jovem**
+- Equipe 2
 - Turma: FSN3
 - Professora: Fernanda Nascimento
 - Facilitador: Gabriel Bezerra
 
-## Funcionalidades
+## Funcionalidades:
 
-- **Cadastro e Login de Usuários**: Permite que os usuários se registrem e façam login de forma segura para acessar as funcionalidades da plataforma, com filtro de informações relevantes como se o usuário é paciente ou especialista e anamnese básica.
-- **Painel do Administrador**: Tela para o admninistrador gerenciar cadastros e monitorar a plataforma.
-- **Comunidade de Apoio (mockados)**: Grupos de apoio sobre questões de saúde mental.
-- **Depoimentos (mockados)**: Depoimentos de usuários
+- **Cadastro e login de usuários**: Permite que os usuários se registrem e façam login de forma segura para acessar as funcionalidades da plataforma. Há anamnese básica e filtro de informações relevantes, como se o usuário é paciente ou especialista.
+- **Painel do administrador**: Tela para o administrador gerenciar cadastros e monitorar a plataforma.
+- **Comunidades de apoio (mockados)**: Grupos de apoio sobre questões de saúde mental.
+- **Depoimentos (mockados)**: Depoimentos de usuários.
+- **Busca por filtros**: É possível buscar profissionais com base na região, especialidade e faixa etária de atendimento.
+- **Perfil de usuário**: O usuário consegue visualizar suas informações.
 
-## Tecnologias Utilizadas
+## Tecnologias Utilizadas:
 
 - **Frontend**:
   - React.js
@@ -23,12 +28,16 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - HTML
   - Tailwind CSS (para componentes e layout responsivo)
  
-- **Outros**:
-  - [Figma](https://www.figma.com/design/Nr7SH5NrDgva6oU809yhDp/projeto?node-id=1903-162&p=f&t=5TA2RxARESAoZoPn-0 "Figma")
-  - [Jira](https://projetocapacita.atlassian.net/jira/software/projects/MFLP/boards/1?atlOrigin=eyJpIjoiOGJiNGZhNmNlNDFiNDBiZTkxNTZmOGE5NzJlNWIwMzIiLCJwIjoiaiJ9 "Jira")
+- **Backend**:
+  - Node.js
+  - Express.js
+  - Prisma
+  - PostgreSQL
+  - Axios
+  - Insomnia
  
-  ## Membros da equipe e suas funções
+## Membros da equipe e suas funções
   - Levi Oliveira: Criação da estrutura e estilização da página inicial (header, hero, about, groups, testimony, contact, footer)
-  - Maria Eduarda: Estilização, organização de tarefas, criação da página de login
+  - Eduarda Alves: Estilização, organização de tarefas, criação da página de login, página de perfil do paciente/profissional
   - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
   - Ricardo Teixeira: Criação do sistema de cadastro, login e perfis. Implementação de autorização / autenticação com JWT e criação de middlewares
