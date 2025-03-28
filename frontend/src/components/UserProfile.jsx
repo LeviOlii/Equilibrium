@@ -360,11 +360,18 @@ const UserProfile = ({ userId }) => {
                   </button>
                 </Link>
 
-                <button className="border-2 px-6 py-2 mx-2 border-desktop-bg rounded-full hover:bg-desktop-bg hover:text-brand-white transition"
-                 onClick={() => setIsSchedulingOpen(true)}>
-                  Agendar consulta
-                </button>
-                {isSchedulingOpen && <Scheduling onClose={() => setIsSchedulingOpen(false)} />}
+              {(currentUser.id !== user.id || currentUser.tipo === "PACIENTE") && (
+                <>
+                  <button
+                    className="border-2 px-6 py-2 mx-2 border-desktop-bg rounded-full hover:bg-desktop-bg hover:text-brand-white transition"
+                    onClick={() => setIsSchedulingOpen(true)}
+                  >
+                    Agendar consulta
+                  </button>
+                  {isSchedulingOpen && <Scheduling onClose={() => setIsSchedulingOpen(false)} />}
+                </>
+              )}
+
               </div>
             </div>
           ))}

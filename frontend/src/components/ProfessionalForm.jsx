@@ -59,7 +59,7 @@ const ProfessionalForm = ({username, email, password, role, goToFirstForm, setEr
             localizacao: address,
             faixa_etaria: ageRange,
             atendimentos_gratuitos: freeService,
-            foto: foto,   
+            foto: foto || "1",   
           }        
         }
 
@@ -86,6 +86,9 @@ const ProfessionalForm = ({username, email, password, role, goToFirstForm, setEr
     }
   };
 
+  const handleContinue = () => {
+    setStep(2);
+  } 
   const toggleDay = (dayId) => {
     setSelectedDays(prev =>
       prev.includes(dayId)
@@ -175,13 +178,13 @@ const ProfessionalForm = ({username, email, password, role, goToFirstForm, setEr
         email: email,
         senha: password,
         tipo: role.toUpperCase(),
-        pacienteData: role.toUpperCase() === "PACIENTE" ? pacienteData : null, 
-        profissionalData: role.toUpperCase() === "PROFISSIONAL" ? {
+        Paciente: role.toUpperCase() === "PACIENTE" ? Paciente : null, 
+        Profissional: role.toUpperCase() === "PROFISSIONAL" ? {
           especialidade: speciality,
           localizacao: address,
           faixa_etaria: ageRange,
           atendimentos_gratuitos: freeService,
-          foto: "1",
+          foto: foto,
           disponibilidades: availabilities // Adiciona as disponibilidades aqui
         } : null
       };
@@ -293,10 +296,10 @@ const ProfessionalForm = ({username, email, password, role, goToFirstForm, setEr
             />
             <br />
                 
-            <button className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 my-6 text-center py-1" type="submit">Concluir</button>
             <button 
               className="bg-mobile-bg border-2 border-solid rounded-xl shadow-md px-8 py-2 text-center" 
               type="submit"
+              onClick={handleContinue}
             >
               Continuar
             </button>
@@ -306,7 +309,7 @@ const ProfessionalForm = ({username, email, password, role, goToFirstForm, setEr
             <h1 className="text-gray-headline font-thin text-3xl my-6 italic">Disponibilidade de Atendimento</h1>
             
             <div className="user_icon w-12 h-12 mx-auto my-5">
-              <img src="src/assets/icons/calendar.png" alt="calendar_icon" />
+              <img src="https://www.svgrepo.com/show/533393/calendar-lines.svg" alt="calendar_icon" />
             </div>
 
             {error && <p className="text-red-500">{error}</p>}
