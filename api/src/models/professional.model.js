@@ -4,7 +4,8 @@ const getAllProfissionais = async () => {
   try {
     return await prisma.profissional.findMany({
       include: {
-        usuario: true,
+        usuario: true, // Inclui os dados do usuário relacionado
+        disponibilidades: true,
       },
     });
   } catch (error) {

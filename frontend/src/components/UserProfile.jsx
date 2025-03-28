@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import Scheduling from "./Scheduling";
+
 
 
 const UserProfile = ({ userId }) => {
@@ -13,6 +15,8 @@ const UserProfile = ({ userId }) => {
   const [editedUser, setEditedUser] = useState({});
 
   
+  const [isSchedulingOpen, setIsSchedulingOpen] = useState(false);
+
   useEffect(() => {
     const carregarDadosUsuario = async () => {
       const res = await axios.get("http://localhost:3000/api/check-auth", {
@@ -335,7 +339,7 @@ const UserProfile = ({ userId }) => {
             ) : (
           
 
-            <div className="mt-4">
+            <div className="mt-4 mb-8">
               <h2 className="font-bold" >Dados de Profissional</h2>
               {user.Profissional.foto && <img src={user.Profissional.foto} alt="Foto do profissional" className="mt-4 w-32 h-32 rounded-full mx-auto" />}
 
@@ -349,15 +353,21 @@ const UserProfile = ({ userId }) => {
               
               <hr />
               <p className="p-4"><span className="font-bold text-desktop-bg">Atendimentos Gratuitos:</span> {user.Profissional.atendimentos_gratuitos ? 'Sim' : 'Não'}</p>
+              <div className='flex justify-center flex-row '>
+                <Link to="/">
+                  <button className="border-2 px-6 py-2 mx-2 border-desktop-bg rounded-full hover:bg-desktop-bg hover:text-brand-white transition">
+                    Home
+                  </button>
+                </Link>
+
+                <button className="border-2 px-6 py-2 mx-2 border-desktop-bg rounded-full hover:bg-desktop-bg hover:text-brand-white transition"
+                 onClick={() => setIsSchedulingOpen(true)}>
+                  Agendar consulta
+                </button>
+                {isSchedulingOpen && <Scheduling onClose={() => setIsSchedulingOpen(false)} />}
+              </div>
             </div>
           ))}
-
-         
-          <Link to="/">
-            <button className="border-2 border-desktop-bg px-6 py-2 m-2 rounded-full hover:bg-desktop-bg hover:text-brand-white transition">
-               Home
-            </button>
-          </Link>
 
           {(currentUser.id === user.id || currentUser.tipo == "ADMIN") && (
             <button

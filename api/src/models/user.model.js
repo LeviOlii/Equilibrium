@@ -1,13 +1,19 @@
 const prisma = require("../prisma");
+const express = require("express");
 
-async function listarUsuarios() {
-    return prisma.usuario.findMany();
-}
+const listarUsuarios = async () => {
+    return await prisma.usuario.findMany({
+        include: {
+            Paciente: true,
+            Profissional: true,
+        },
+    });
+};
 
-async function buscarUsuarioPorId(id) {
+const buscarUsuarioPorId = async (id) => {
     const usuario = await prisma.usuario.findUnique({
         where: { id },
-        include: { // agora inclui os dados de paciente/profissional
+        include: { //agr inclui os dados de paciente/profissional
             Paciente: true,
             Profissional: true,
         }
@@ -20,56 +26,72 @@ async function buscarUsuarioPorId(id) {
     return usuario;
 }
 
-async function criarUsuario({ nome, email, senha, tipo, Paciente, Profissional }) {
-    const usuarioExistente = await prisma.usuario.findUnique({
-        where: { email },
-    });
-
-    console.log("model Profissional", Profissional);
-
-    if (usuarioExistente) {
-        throw new Error("E-mail já cadastrado!");
-    }
-
-    const usuario = await prisma.usuario.create({
-        data: {
-            nome,
-            email,
-            senha,
-            tipo: tipo.toUpperCase(),
-        },
-    });
-
-    if (tipo.toUpperCase() === "PACIENTE" && Paciente) {
-        await prisma.paciente.create({
-            data: {
-                usuario_id: usuario.id,
-                idade: Paciente.idade,
-                genero: Paciente.genero,
-                queixas: Paciente.queixas,
-                historico_familiar: Paciente.historico_familiar,
-                uso_medicamentos: Paciente.uso_medicamentos,
-                objetivo_terapia: Paciente.objetivo_terapia,
-            }
+const criarUsuario = async ({ nome, email, senha, tipo, Paciente, Profissional }) => {
+    return await prisma.$transaction(async (prisma) => {
+        const usuarioExistente = await prisma.usuario.findUnique({
+            where: { email },
         });
-    }
 
-    if (tipo.toUpperCase() === "PROFISSIONAL" && Profissional) {
-        await prisma.profissional.create({
+        if (usuarioExistente) {
+            throw new Error("E-mail já cadastrado!");
+        }
+
+        // Cria usuário base
+        const usuario = await prisma.usuario.create({
             data: {
-                usuario_id: usuario.id,
-                especialidade: Profissional.especialidade,
-                localizacao: Profissional.localizacao,
-                faixa_etaria: Profissional.faixa_etaria,
-                atendimentos_gratuitos: Profissional.atendimentos_gratuitos,
-                foto: Profissional.foto,
-            }
+                nome,
+                email,
+                senha,
+                tipo: tipo.toUpperCase(),
+            },
         });
-    }
-    return usuario;
-}
 
-async function atualizarUsuario(id, { nome, email, Paciente, Profissional }) {
+        // Se for paciente
+        if (tipo.toUpperCase() === "PACIENTE" && Paciente) {
+            await prisma.paciente.create({
+                data: {
+                    usuario_id: usuario.id,
+                    idade: Paciente.idade,
+                    genero: Paciente.genero,
+                    queixas: Paciente.queixas,
+                    historico_familiar: Paciente.historico_familiar,
+                    uso_medicamentos: Paciente.uso_medicamentos,
+                    objetivo_terapia: Paciente.objetivo_terapia,
+                }
+            });
+        }
+
+        // Se for profissional
+        if (tipo.toUpperCase() === "PROFISSIONAL" && Profissional) {
+            const profissional = await prisma.profissional.create({
+                data: {
+                    usuario_id: usuario.id,
+                    especialidade: Profissional.especialidade,
+                    localizacao: Profissional.localizacao,
+                    faixa_etaria: Profissional.faixa_etaria,
+                    atendimentos_gratuitos: Profissional.atendimentos_gratuitos,
+                    foto: Profissional.foto || "1",
+                }
+            });
+
+            // Cria disponibilidades se existirem
+            if (Profissional.disponibilidades && Profissional.disponibilidades.length > 0) {
+                await prisma.disponibilidade.createMany({
+                    data: Profissional.disponibilidades.map(d => ({
+                        profissional_id: profissional.id,
+                        dataHora: new Date(d.dataHora),
+                        disponivel: true
+                    }))
+                });
+            }
+        }
+
+        return usuario;
+    });
+};
+
+const atualizarUsuario = async (id, { nome, email, senha, tipo, Paciente, Profissional }) => {
+    // Verifica se o usuário existe
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
@@ -78,14 +100,18 @@ async function atualizarUsuario(id, { nome, email, Paciente, Profissional }) {
         throw new Error('Usuário não encontrado');
     }
 
+    // Atualiza os dados do usuário na tabela Usuario
     const usuarioAtualizado = await prisma.usuario.update({
         where: { id },
         data: {
             nome,
             email,
+            senha,
+            tipo,
         },
     });
 
+    // Se for paciente, atualiza os dados na tabela Paciente
     if (usuarioAtualizado.tipo === "PACIENTE" && Paciente) {
         await prisma.paciente.updateMany({
             where: { usuario_id: id },
@@ -100,6 +126,7 @@ async function atualizarUsuario(id, { nome, email, Paciente, Profissional }) {
         });
     }
 
+    // Se for profissional, atualiza os dados na tabela Profissional
     if (usuarioAtualizado.tipo === "PROFISSIONAL" && Profissional) {
         await prisma.profissional.update({
             where: { usuario_id: id },
@@ -114,20 +141,27 @@ async function atualizarUsuario(id, { nome, email, Paciente, Profissional }) {
     }
 
     return usuarioAtualizado;
-}
+};
 
-async function deletarUsuario(id) {
+const deletarUsuario = async (id) => {
+    // Verifica se existe o usuário
     const usuario = await prisma.usuario.findUnique({
         where: { id },
     });
 
     if (!usuario) {
-        throw new Error('Usuário não encontrado!');
+        throw new Error('Usuário não encontrao!');
     }
 
     await prisma.usuario.delete({
         where: { id },
     });
-}
+};
 
-module.exports = { listarUsuarios, buscarUsuarioPorId, criarUsuario, atualizarUsuario, deletarUsuario };
+module.exports = {
+    listarUsuarios,
+    buscarUsuarioPorId,
+    criarUsuario,
+    atualizarUsuario,
+    deletarUsuario,
+};

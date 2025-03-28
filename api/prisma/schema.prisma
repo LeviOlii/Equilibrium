@@ -19,79 +19,98 @@ enum TipoUsuario {
   ADMIN
 }
 
-model Depoimento{
-  id            Int @id @default(autoincrement())
-  descricao     String
-  data          DateTime @default(now())
+model Depoimento {
+  id        Int      @id @default(autoincrement())
+  descricao String
+  data      DateTime @default(now())
 }
 
 model GrupodeApoio {
-  id            Int    @id @default(autoincrement())
-  nome          String
-  descricao     String
-  regiao        String
+  id        Int    @id @default(autoincrement())
+  nome      String
+  descricao String
+  regiao    String
 }
 
 model Usuario {
-  id        Int    @id @default(autoincrement())
-  nome      String
-  email     String @unique
-  senha     String
-  tipo      TipoUsuario
+  id    Int         @id @default(autoincrement())
+  nome  String
+  email String      @unique
+  senha String
+  tipo  TipoUsuario
 
-  Paciente          Paciente?
-  Profissional      Profissional?
+  Paciente     Paciente?
+  Profissional Profissional?
 }
 
-
 model Paciente {
-  id                    Int     @id @default(autoincrement())
-  usuario               Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
-  usuario_id            Int    @unique
-  idade                 Int
-  genero                String
-  queixas               String
-  historico_familiar    String
-  uso_medicamentos      String
-  objetivo_terapia      String
+  id                 Int     @id @default(autoincrement())
+  usuario            Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  usuario_id         Int     @unique
+  idade              Int
+  genero             String
+  queixas            String
+  historico_familiar String
+  uso_medicamentos   String
+  objetivo_terapia   String
 
-  evolucaoclinica       EvolucaoClinica[]
-  sessoes               SessaoAtendimento[]
+  evolucoes         EvolucaoClinica[] // Agora referenciado corretamente
+  sessoes           SessaoAtendimento[]
 }
 
 model Profissional {
-  id                        Int     @id @default(autoincrement())
-  usuario                   Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
-  usuario_id                Int     @unique
-  especialidade             String
-  localizacao               String
-  faixa_etaria              String
-  atendimentos_gratuitos    Boolean
-  foto                      String?
+  id                     Int     @id @default(autoincrement())
+  usuario                Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  usuario_id             Int     @unique
+  especialidade          String
+  localizacao            String
+  faixa_etaria           String
+  atendimentos_gratuitos Boolean
+  foto                   String?
 
-  sessoes                   SessaoAtendimento[]
-  evolucaoclinica           EvolucaoClinica[]
+  sessoes          SessaoAtendimento[]
+  evolucoes        EvolucaoClinica[] // Agora referenciado corretamente
+  disponibilidades Disponibilidade[]
+}
+
+model Disponibilidade {
+  id                Int             @id @default(autoincrement())
+  profissional      Profissional    @relation(fields: [profissional_id], references: [id], onDelete: Cascade)
+  profissional_id   Int
+  dataHora          DateTime
+  disponivel        Boolean         @default(true)
+
+  sessao           SessaoAtendimento?
 }
 
 model SessaoAtendimento {
-  id                  Int        @id @default(autoincrement())
-  paciente            Paciente   @relation(fields: [paciente_id], references: [id], onDelete: Cascade)
-  paciente_id         Int
-  profissional        Profissional @relation(fields: [profissional_id], references: [id], onDelete: Cascade)
-  profissional_id     Int
-  data                DateTime
-  status              String
-  avaliacao           String?
+  id                 Int             @id @default(autoincrement())
+  paciente           Paciente        @relation(fields: [paciente_id], references: [id], onDelete: Cascade)
+  paciente_id        Int
+  profissional       Profissional    @relation(fields: [profissional_id], references: [id], onDelete: Cascade)
+  profissional_id    Int
+  disponibilidade    Disponibilidade @relation(fields: [disponibilidade_id], references: [id])
+  disponibilidade_id Int             @unique
+  status             String          @default("Agendado")
+  avaliacao          String?
+
+  evolucao          EvolucaoClinica? @relation(fields: [evolucao_id], references: [id])
+  evolucao_id       Int? @unique
 }
 
 model EvolucaoClinica {
-  id                      Int      @id @default(autoincrement())
-  pacienteId              Int
-  profissionalId          Int
-  data                    DateTime @default(now())
-  relatoAtendimento       String
-  ajustesNoTratamento     String
+  id                  Int      @id @default(autoincrement())
+  pacienteId          Int
+  profissionalId      Int
+  data                DateTime @default(now())
+  relatoAtendimento   String
+  ajustesNoTratamento String
 
-  paciente                Paciente  @relation(fields: [pacienteId], references: [id])
-  profissional            Profissional @relation(fields: [profissionalId], references: [id])
+  paciente     Paciente     @relation(fields: [pacienteId], references: [id])
+  profissional Profissional @relation(fields: [profissionalId], references: [id])
+
+  sessao       SessaoAtendimento? 
+  sessaoId     Int? @unique // Adicionada relação explícita com SessaoAtendimento
 }
+
+
