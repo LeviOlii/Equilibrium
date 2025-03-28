@@ -5,7 +5,7 @@ const groups = [
     { id: 2, name: "Grupo de Terapia Infantil", region: "Quixadá", specialty: "Terapia Infantil" },
     { id: 3, name: "Cuidando da Mente", region: "Caucaia", specialty: "Saúde Mental" },
     { id: 4, name: "Viva Bem", region: "Eusébio", specialty: "Bem-Estar" },
-    { id: 5, name: "Superando a Depressão", region: "Maracanau", specialty: "Depressão" },
+    { id: 5, name: "Superando a Depressão", region: "Maracanaú", specialty: "Depressão" },
 ];
 
 const GroupList = () => {
