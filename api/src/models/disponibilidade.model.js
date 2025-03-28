@@ -84,6 +84,10 @@ const buscarDisponibilidadesPorId = async (id) => {
         where: {
             id: idInt, // Agora é um número inteiro
         },
+        include: {
+            profissional_id,
+            disponivel
+        }
     });
 
     if (disponibilidade.length === 0) {
