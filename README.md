@@ -37,7 +37,7 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - Insomnia
  
 ## Membros da equipe e suas funções:
-  - Levi Oliveira: Criação da estrutura e estilização da página inicial (header, hero, about, groups, testimony, contact, footer)
+  - Levi Oliveira: Criação da estrutura e estilização da página inicial / Criação da API de Usuários / Criação das API de agendamento de sessões
   - Eduarda Alves: Estilização, organização de tarefas, criação da página de login, página de perfil do paciente/profissional
   - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
   - Ricardo Teixeira: Criação do sistema de cadastro, login e perfis. Implementação de autorização / autenticação com JWT e criação de middlewares
