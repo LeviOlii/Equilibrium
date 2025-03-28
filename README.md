@@ -31,3 +31,4 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - Levi Oliveira: Criação da estrutura e estilização da página inicial (header, hero, about, groups, testimony, contact, footer)
   - Maria Eduarda: Estilização, organização de tarefas, criação da página de login
   - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
+  - Ricardo Teixeira: Criação do sistema de cadastro, login e perfis. Implementação de autorização / autenticação com JWT e criação de middlewares
