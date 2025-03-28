@@ -6,16 +6,19 @@ const professionalRoutes = require("./routes/professional.routes");
 
 const app = express();
 
-// form de foto
-// terminar de ajeitar a edição do perfil
-
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }));
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); 
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 100000 }));
+//https://stackoverflow.com/questions/52016659/nodejs-router-payload-too-large
+
+
+
+
 app.use("/api", userRoutes);
 app.use("/api", professionalRoutes);
 
