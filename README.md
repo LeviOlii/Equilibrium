@@ -42,7 +42,7 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - Eduarda Alves: Estilização, organização de tarefas, criação da página de login, página de perfil do paciente/profissional
   - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
   - Ricardo Teixeira: Criação do sistema de cadastro, login e perfis. Implementação de autorização / autenticação com JWT e criação de middlewares
-
+  - Gustavo Rodrigues: Criação da tela de busca de profissional, implementação da API para requisição dos dados dos profissionais
 ## Como Rodar o Projeto
 
 ### **Pré-requisitos**
