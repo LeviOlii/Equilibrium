@@ -43,6 +43,7 @@ O **Equilibrium** é um pequeno projeto em plataforma web simplificado, cuja ide
   - Samuel Oliveira: Criação das telas de login e cadastro para paciente e profissional com formulário de anamnese básica
   - Ricardo Teixeira: Criação do sistema de cadastro, login e perfis. Implementação de autorização / autenticação com JWT e criação de middlewares
   - Gustavo Rodrigues: Criação da tela de busca de profissional, implementação da API para requisição dos dados dos profissionais
+  - David Cavalcante: Criação da API de depoimentos dos usuarios
 ## Como Rodar o Projeto
 
 ### **Pré-requisitos**
@@ -92,4 +93,9 @@ O projeto estará rodando no navegador em `http://localhost:5173/` (ou outra por
 ## 📜 Licença
 
 Este projeto é de uso acadêmico e não possui licença comercial.
+
+## Créditos
+
+A landing page do projeto foi baseada no design disponibilizado no Figma:
+[🔗 DoctorCare - Figma Community](https://www.figma.com/community/file/1102912263666619803/doctorcare)
 
