@@ -76,13 +76,13 @@ Antes de rodar o projeto, certifique-se de ter instalado:
    ```sh
    cd frontend
    ```
-2. Instale as dependências:
+2. Construa a imagem docker:
    ```sh
-   npm install
+   docker build -t equilibrium-front:dev .
    ```
-3. Inicie o projeto:
+3. Inicie a imagem docker:
    ```sh
-   npm run dev
+   docker run -it --rm -p 5173:5173 equilibrium-front:dev
    ```
 
 Agora o projeto estará rodando e pronto para ser utilizado!
